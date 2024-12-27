@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 const Home = () => {
 return (
     <div id="home" className="bg-gray-100 min-h-screen flex flex-col justify-center items-center text-center lg:flex-row">
