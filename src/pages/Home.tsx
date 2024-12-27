@@ -2,7 +2,7 @@ const Home = () => {
 return (
     <div id="home" className="bg-gray-100 min-h-screen flex flex-col justify-center items-center text-center lg:flex-row">
          <img 
-            src="public/FinleyLogo.svg"
+            src="FinleyLogo.svg"
             className='w-1/2 max-w-96'
         />
         <div>
