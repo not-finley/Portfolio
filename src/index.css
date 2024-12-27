@@ -1,6 +1,9 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -26,16 +29,16 @@ html, body, #root {
 
 .container {
   display: flex;
-  flex-direction: column; /* Or row for horizontal layout */
-  justify-content: center; /* Center content vertically */
-  align-items: center; /* Center content horizontally */
-  height: 100%; /* Stretch to full height */
-  width: 100%; /* Stretch to full width */
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
+  height: 100%; 
+  width: 100%; 
 }
 
 .header {
-  height: 10vh; /* Header takes up 10% of the viewport height */
-  width: 100vw; /* Full browser width */
+  height: 10vh; 
+  width: 100vw; 
 }
 
 .main-content {
@@ -107,23 +110,23 @@ button:focus-visible {
 
 .contact-bar {
   display: flex;
-  gap: 20px; /* Space between icons */ 
+  gap: 20px;
   padding: 10px 30px;
-  border-radius: 50px; /* Rounded edges */
-  background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+  border-radius: 50px;
+  background: rgba(0, 0, 0, 0.8); 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
 }
 
 .contact-bar a {
-  color: #fff; /* Icon color */
-  font-size: 24px; /* Adjust size as needed */
+  color: #fff;
+  font-size: 24px; 
   text-decoration: none;
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .contact-bar a:hover {
-  transform: scale(1.2); /* Slightly enlarge on hover */
-  color: #1da1f2; /* Example accent color on hover */
+  transform: scale(1.2); 
+  color: #1da1f2; 
 }
 
 .content {

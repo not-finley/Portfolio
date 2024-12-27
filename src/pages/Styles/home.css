@@ -1,0 +1,8 @@
+.home {
+    @apply bg-blue-950 min-h-screen flex flex-col justify-center items-center text-center lg:flex-row
+}
+
+
+.home .container {
+    @apply  min-h-screen flex flex-col justify-center items-center text-center lg:flex-row
+}

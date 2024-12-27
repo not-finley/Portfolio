@@ -10,19 +10,12 @@ import Footer from './components/Footer';
 function App() {
   return (
       <div className="flex flex-col min-h-screen object-center">
-          {/* Navbar appears on all pages */}
           <Navbar />
-
-          {/* Main Content */}
-          <div>
-            <Home />
-            <About />
-            <Projects />
-            <PastExperience />
-            <Contact />
-          </div>
-
-          {/* Footer appears on all pages */}
+          <Home />
+          <About />
+          <Projects />
+          <PastExperience />
+          <Contact />
           <Footer />
       </div>
 );
