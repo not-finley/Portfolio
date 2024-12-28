@@ -37,7 +37,7 @@ const Home = () => {
             <div className="container">
                 <img 
                     src="FinleyLogo.svg"
-                    className='w-1/2 max-w-96'
+                    className='w-1/2 max-w-96 lg:max-w-lg'
                 />
                 <div>
                     <h1 className="text-5xl font-bold text-white mb-4">Hi, I'm Finley</h1>

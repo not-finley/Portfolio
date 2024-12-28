@@ -1,5 +1,5 @@
 .navbar {
-    @apply text-white p-4 flex justify-between items-center fixed w-full top-0;
+    @apply text-white p-4 flex justify-between items-center fixed w-full top-0 m-0;
     z-index: 5;
 }
 
@@ -30,6 +30,10 @@
     @apply text-white text-base font-semibold
 }
 
+.nav-menu li a:hover {
+    @apply text-blue-300
+}
+
 @media screen and (max-width: 940px) {
     .hamburger {
         display: block;
@@ -43,8 +47,8 @@
     }
 
     .nav-menu {
-        @apply absolute flex-col justify-center w-1/2 h-screen bg-slate-500 opacity-90 top-0 -right-full;
-        transition: 0.5s ease-in-out;
+        @apply absolute flex-col text-center w-1/2 h-screen bg-slate-900 opacity-90 top-0 -right-full p-20;
+        transition: 0.3s ease-in-out;
     }
     
     .active {
@@ -59,9 +63,8 @@
         font-size: 1.2rem;
     }
 
-    .nav-menu li:hover {
-        border-bottom: 1px solid #aaa;
-        width: 175px;
+    .nav-menu li a:hover {
+        @apply font-extrabold
     }
 
     .nav-menu button {
@@ -75,9 +78,6 @@
         color: #f6f6f6;
     }
 
-    .nav-menu button:hover {
-        background: rgba(255, 255, 255, .1);
-    }
 
     .nav-menu .social-icons {
         display: flex;
@@ -94,10 +94,10 @@
         display: none;
     }
 
-   .navbar .slide-right {
+   /* .navbar .slide-right {
         @apply ml-10;
         transition: .9s ease-in-out;
-    }
+    } */
 }
 @media screen and (max-width: 495px) {
     .nav-menu {
