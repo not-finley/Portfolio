@@ -51,6 +51,7 @@ const Home = () => {
                         ease: "backInOut"
                     }}
                     src="FinleyLogo.svg"
+                    alt="logo"
                     className='w-1/2 max-w-96 lg:max-w-lg'
                 />
                 <div>

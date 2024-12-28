@@ -10,6 +10,7 @@ const Projects = () => {
             image: '/assets/images/JukeBox.png',
             link: 'https://github.com/not-finley/JukeBox',
             active: 'https://juke-box-zeta.vercel.app/',
+            alt: 'Jukebox website',
             isActive: true,
         },
         {
@@ -17,6 +18,7 @@ const Projects = () => {
             description: 'A C++ ray tracer',
             image: '/assets/images/raytracer.png',
             link: 'https://github.com/not-finley/Raytracer',
+            alt: 'Ray traced image',
             active: '',
             isActive: false,
         },
@@ -25,7 +27,8 @@ const Projects = () => {
             description: 'My personal Portfolio',
             image: '/assets/images/Portfolio.png',
             link: 'https://github.com/not-finley/portfolio',
-            active: 'https://finley-harrison.vercel.app/',
+            alt: 'Portfolio homepage',
+            active: 'https://finleyharrison.ca/',
             isActive: true,
         },
         {
@@ -33,6 +36,7 @@ const Projects = () => {
             description: 'A simple javascript solver for the Apple News Quartile game',
             image: '/assets/images/QuartileSolver.png',
             link: 'https://github.com/not-finley/QuartileSolver',
+            alt: 'Quartile Solver',
             active: 'https://quartile-solver-beige.vercel.app/',
             isActive: true,
         },
@@ -40,6 +44,7 @@ const Projects = () => {
             title: 'MIT 6.837 Assignments',
             description: 'A few assignments in the MIT introduction to raytracing course',
             image: '/assets/images/MIT.png',
+            alt: '3d wine glass',
             link: 'https://github.com/not-finley/MIT_6.837',
             active: '',
             isActive: false,
@@ -57,7 +62,7 @@ const Projects = () => {
                         >
                             <img
                                 src={project.image}
-                                alt={project.title}
+                                alt={project.alt}
                                 className="w-full h-48 object-cover"
                             />
                             <div className="p-4 text-center flex-col justify-normal content-center">
