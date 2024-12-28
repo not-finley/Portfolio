@@ -1,4 +1,4 @@
-import { FaGithub, FaSignal } from "react-icons/fa6";
+import { FaGithub } from "react-icons/fa6";
 import { HiSignal } from "react-icons/hi2";
 
 const Projects = () => {
