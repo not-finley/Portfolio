@@ -27,7 +27,8 @@ const Navbar = () => {
 
             <ul className={nav ? 'nav-menu active' : 'nav-menu'}>
                 <li>
-                    <Link 
+                    <Link
+                    href='#home' 
                     to="home" 
                     spy={true} 
                     smooth={true} 
@@ -40,6 +41,7 @@ const Navbar = () => {
                 </li>
                 <li>
                     <Link 
+                    href='#about' 
                     to="about" 
                     spy={true} 
                     smooth={true} 
@@ -52,6 +54,7 @@ const Navbar = () => {
                 </li>
                 <li>
                     <Link 
+                    href='#projects' 
                     to="projects" 
                     spy={true} 
                     smooth={true} 
@@ -63,7 +66,8 @@ const Navbar = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link 
+                    <Link
+                    href='#experience'
                     to="experience" 
                     spy={true} 
                     smooth={true} 
@@ -75,7 +79,8 @@ const Navbar = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link 
+                    <Link
+                    href='#contact' 
                     to="contact" 
                     spy={true} 
                     smooth={true} 
