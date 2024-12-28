@@ -26,9 +26,9 @@ const About = () => {
                      }}
                     animate={mainControls}
                     transition={{duration: 0.5, delay: .1}}
-                    src="/FinleyLogo.svg"
+                    src="FinleyLogo.svg"
                     alt="Profile"
-                    className="w-32 h-32 rounded-full mx-auto mb-6"
+                    className="w-32 h-32 mx-auto mb-6 z-5"
                 />
                 <motion.h1
                 initial={{

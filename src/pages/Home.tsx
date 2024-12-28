@@ -48,7 +48,7 @@ const Home = () => {
                     transition={{
                         delay: .5,
                         duration: .75,
-                        ease: 'backInOut'
+                        ease: "backInOut"
                     }}
                     src="FinleyLogo.svg"
                     className='w-1/2 max-w-96 lg:max-w-lg'
