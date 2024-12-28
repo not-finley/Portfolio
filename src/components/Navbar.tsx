@@ -26,11 +26,66 @@ const Navbar = () => {
             </div>
 
             <ul className={nav ? 'nav-menu active' : 'nav-menu'}>
-                <li><a href="/"><Link onClick={handleClose} activeClass="active" to="home" spy={true} smooth={true} duration={500}>Home</Link></a></li>
-                <li><a href="/"><Link onClick={handleClose} activeClass="active" to="about" spy={true} smooth={true} duration={500}>About</Link></a></li>
-                <li><a href="/"><Link onClick={handleClose} activeClass="active" to="projects" spy={true} smooth={true} duration={500}>Projects</Link></a></li>
-                <li><a href="/"><Link onClick={handleClose} activeClass="active" to="experience" spy={true} smooth={true} duration={500}>Experience</Link></a></li>
-                <li><a href="/"><Link onClick={handleClose} activeClass="active" to="contact" spy={true} smooth={true} duration={500}>Contact</Link></a></li>
+                <li>
+                    <Link 
+                    to="home" 
+                    spy={true} 
+                    smooth={true} 
+                    duration={500} 
+                    activeClass="active" 
+                    onClick={handleClose}
+                    >
+                    Home
+                    </Link>
+                </li>
+                <li>
+                    <Link 
+                    to="about" 
+                    spy={true} 
+                    smooth={true} 
+                    duration={500} 
+                    activeClass="active" 
+                    onClick={handleClose}
+                    >
+                    About
+                    </Link>
+                </li>
+                <li>
+                    <Link 
+                    to="projects" 
+                    spy={true} 
+                    smooth={true} 
+                    duration={500} 
+                    activeClass="active" 
+                    onClick={handleClose}
+                    >
+                    Projects
+                    </Link>
+                </li>
+                <li>
+                    <Link 
+                    to="experience" 
+                    spy={true} 
+                    smooth={true} 
+                    duration={500} 
+                    activeClass="active" 
+                    onClick={handleClose}
+                    >
+                    Experience
+                    </Link>
+                </li>
+                <li>
+                    <Link 
+                    to="contact" 
+                    spy={true} 
+                    smooth={true} 
+                    duration={500} 
+                    activeClass="active" 
+                    onClick={handleClose}
+                    >
+                    Contact
+                    </Link>
+                </li>
 
             </ul>
 
