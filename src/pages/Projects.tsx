@@ -25,7 +25,7 @@ const Projects = () => {
             description: 'My personal Portfolio',
             image: '/assets/images/Portfolio.png',
             link: 'https://github.com/not-finley/portfolio',
-            active: 'https:/finley-harrison.vercel.app/',
+            active: 'https://finley-harrison.vercel.app/',
             isActive: true,
         },
         {
