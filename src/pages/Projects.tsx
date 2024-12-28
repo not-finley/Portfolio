@@ -21,6 +21,14 @@ const Projects = () => {
             isActive: false,
         },
         {
+            title: 'Portfolio',
+            description: 'My personal Portfolio',
+            image: '/assets/images/Portfolio.png',
+            link: 'https://github.com/not-finley/portfolio',
+            active: 'https:/finley-harrison.vercel.app/',
+            isActive: true,
+        },
+        {
             title: 'Quartile Solver',
             description: 'A simple javascript solver for the Apple News Quartile game',
             image: '/assets/images/QuartileSolver.png',

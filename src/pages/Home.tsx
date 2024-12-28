@@ -1,4 +1,5 @@
 import './Styles/home.css'
+import { motion } from "motion/react"
 
 // const Home = () => {
 // return (
@@ -34,16 +35,61 @@ import './Styles/home.css'
 const Home = () => {
     return (
         <div id="home" className="home">
-            <div className="container">
-                <img 
+            <div className="container place-content-center">
+                <motion.img
+                    initial={{
+                        opacity: 0,
+                        x: -40
+                    }}
+                    animate={{ 
+                        opacity: 100,
+                        x: 0
+                    }}
+                    transition={{
+                        delay: .5,
+                        duration: .75,
+                        ease: 'backInOut'
+                    }}
                     src="FinleyLogo.svg"
                     className='w-1/2 max-w-96 lg:max-w-lg'
                 />
                 <div>
-                    <h1 className="text-5xl font-bold text-white mb-4">Hi, I'm Finley</h1>
-                    <p className="text-lg text-gray-400 mb-8 max-w-lg">
+                    <motion.h1 
+                    initial={{
+                        opacity: 0,
+                        y: 40
+                    }}
+                    animate={{ 
+                        opacity: 100,
+                        y: 0
+                    }}
+                    transition={{
+                        delay: .1,
+                        duration: .75,
+                        ease: 'backInOut'
+                    }}
+                    className="text-5xl font-bold text-white mb-4"
+                    >
+                        Hi, I'm Finley
+                    </motion.h1>
+                    <motion.p
+                    initial={{
+                        opacity: 0,
+                        y: 40
+                    }}
+                    animate={{ 
+                        opacity: 100,
+                        y: 0
+                    }}
+                    transition={{
+                        delay: .7,
+                        duration: .75,
+                        ease: 'backInOut'
+                    }}
+                    className="text-lg text-gray-400 mb-8 max-w-lg"
+                    >
                         A passionate Software Developer based in Waterloo, Ontario. I love building creative solutions and bringing ideas to life.
-                    </p>
+                    </motion.p>
                     <div className="space-x-4">
                         {/* <Link to="/about">
                             <button className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-300">
