@@ -155,5 +155,5 @@ button:focus-visible {
   }
 }
 .carousel-container {
-  @apply w-full h-auto
+  @apply w-full h-1/2
 }

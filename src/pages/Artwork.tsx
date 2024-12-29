@@ -6,8 +6,8 @@ const Artwork = () => {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 1,
-      slidesToSlide: 1 // optional, default to 1.
+      items: 2,
+      slidesToSlide: 2 // optional, default to 1.
     },
     tablet: {
       breakpoint: { max: 1024, min: 768 },
@@ -27,6 +27,7 @@ const Artwork = () => {
     { id: 3, img: "assets/images/Fractal.png" },
     { id: 4, img: "assets/images/Fractal2.png" },
     { id: 5, img: "assets/images/Perfume.png" },
+    { id: 6, img: "assets/images/Perfume.png"}
   ];
 
   return (
