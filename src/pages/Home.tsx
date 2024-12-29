@@ -87,7 +87,7 @@ const Home = () => {
                         duration: .75,
                         ease: 'backInOut'
                     }}
-                    className="text-lg text-gray-400 mb-8 max-w-lg"
+                    className="text-lg text-gray-300 mb-8 max-w-lg"
                     >
                         A passionate Software Developer based in Waterloo, Ontario. I love building creative solutions and bringing ideas to life.
                     </motion.p>

@@ -58,7 +58,7 @@ const Projects = () => {
                             />
                             <div className="p-4 text-center flex-col justify-normal content-center">
                                 <h2 className="text-2xl font-bold">{project.title}</h2>
-                                <p className="text-gray-600">{project.description}</p>
+                                <p className="text-gray-300">{project.description}</p>
                                 <div className="flex gap-7 justify-center text-center ">
                                     <a
                                         href={project.link}

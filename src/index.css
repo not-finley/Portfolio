@@ -1,7 +1,7 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 
 
@@ -153,4 +153,10 @@ button:focus-visible {
     flex-direction: column;
     padding: 1rem;
   }
+}
+
+
+/* Position the pagination dots at the bottom */
+.splide__pagination {
+  @apply top-20
 }
