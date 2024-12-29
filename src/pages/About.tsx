@@ -46,7 +46,7 @@ const About = () => {
                 animate={mainControls}
                 transition={{duration: 0.5, delay: 1}}
                 className="text-gray-300 text-lg">
-                    I'm Finley, a university student at University of Waterloo with experience in web development, problem solving, and communication. .... (write later)
+                    I'm Finley, a student at University of Waterloo with experience in web development, problem solving, and communication.
                 </motion.p>
             </div>
         </motion.div>

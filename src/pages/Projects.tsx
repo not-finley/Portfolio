@@ -23,15 +23,6 @@ const Projects = () => {
             isActive: false,
         },
         {
-            title: 'Portfolio',
-            description: 'My personal Portfolio',
-            image: '/assets/images/Portfolio.png',
-            link: 'https://github.com/not-finley/portfolio',
-            alt: 'Portfolio homepage',
-            active: 'https://finleyharrison.ca/',
-            isActive: true,
-        },
-        {
             title: 'Quartile Solver',
             description: 'A simple javascript solver for the Apple News Quartile game',
             image: '/assets/images/QuartileSolver.png',
