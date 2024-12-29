@@ -154,9 +154,6 @@ button:focus-visible {
     padding: 1rem;
   }
 }
-
-
-/* Position the pagination dots at the bottom */
-.splide__pagination {
-  @apply top-20
+.carousel-container {
+  @apply w-full h-screen
 }
