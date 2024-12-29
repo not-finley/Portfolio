@@ -3,6 +3,7 @@ import logo from '/FinleyLogo.svg';
 import { FaBars, } from 'react-icons/fa6';
 import { Link } from 'react-scroll';
 import { FaTimes } from 'react-icons/fa';
+import { motion } from "motion/react"
 import './Styles/Navbar.css'
 
 const Navbar = () => {
@@ -21,8 +22,37 @@ const Navbar = () => {
     return (
         <nav className='navbar'>
             <div className="logo">
-                <img src={logo} alt="Logo" className="h-10 w-10" />
-                <h3 className='font-extrabold text-3xl text-yellow-300'>Finley Harrison</h3>
+                <motion.img 
+                    initial={{
+                        opacity: 0,
+                        x: -40
+                    }}
+                    animate={{ 
+                        opacity: 100,
+                        x: 0
+                    }}
+                    transition={{
+                        delay: 1,
+                        duration: 2,
+                        ease: "backInOut"
+                    }}
+                    src={logo} alt="Logo" className="h-10 w-10" 
+                />
+                <motion.h3
+                initial={{
+                    opacity: 0,
+                    y: 40
+                }}
+                animate={{ 
+                    opacity: 100,
+                    y: 0
+                }}
+                transition={{
+                    delay: 1.5,
+                    duration: 1,
+                    ease: "backInOut"
+                }} 
+                className='font-extrabold text-3xl text-yellow-300'>Finley Harrison</motion.h3>
             </div>
 
             <ul className={nav ? 'nav-menu active' : 'nav-menu'}>

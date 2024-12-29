@@ -1,5 +1,5 @@
 .navbar {
-    @apply text-white p-4 flex justify-between items-center fixed w-full top-0 m-0 backdrop-blur-md;
+    @apply text-white p-4 flex justify-between items-center fixed w-full top-0 m-0 backdrop-blur-sm rounded-3xl;
     z-index: 5;
 }
 

@@ -34,7 +34,8 @@ import { motion } from "motion/react"
 
 const Home = () => {
     return (
-        <div id="home" className="home">
+        <div
+        id="home" className="home">
             <div className="container place-content-center">
                 <motion.img
                     initial={{

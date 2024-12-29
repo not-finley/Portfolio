@@ -22,15 +22,16 @@ const Artwork = () => {
   };
 
   const slides = [
-    { id: 1, content: "1" },
-    { id: 2, content: "2" },
-    { id: 3, content: "3" },
-    { id: 4, content: "4" },
+    { id: 1, img: "assets/images/ViClay.png" },
+    { id: 2, img: "assets/images/Vi.png" },
+    { id: 3, img: "assets/images/Fractal.png" },
+    { id: 4, img: "assets/images/Fractal2.png" },
+    { id: 5, img: "assets/images/Perfume.png" },
   ];
 
   return (
     <div id="artwork" className="bg-blue-800 flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-4xl font-bold text-white mb-8">Artwork</h1>
+      <h1 className="text-4xl font-bold text-white mb-8 mt-24">Artwork</h1>
       <Carousel
         responsive={responsive}
         infinite
@@ -38,12 +39,12 @@ const Artwork = () => {
         autoPlaySpeed={5000}
         showDots
         dotListClass="custom-dot-list-style"
-        containerClass="carousel-container"
+        containerClass="carousel-container mb-20"
       >
-        {slides.map((_id, content) => {
+        {slides.map((item) => {
           return (
-            <div className="text-center">
-              {content}
+            <div key={item.id} className="h-screen text-center flex items-center justify-center">
+              <img src={item.img}/>
             </div>
           );
         })}

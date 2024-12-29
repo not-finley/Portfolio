@@ -7,7 +7,6 @@ const About = () => {
     const mainControls = useAnimation();
 
     useEffect(() => {
-        console.log(isInView)
         if (isInView) {
             mainControls.start({
                 opacity: 100,
