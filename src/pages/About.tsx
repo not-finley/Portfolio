@@ -18,7 +18,7 @@ const About = () => {
     return (
         <motion.div
           id="about" className="content bg-blue-900 h-auto py-10 px-4 items-center flex">
-            <div className="max-w-4xl mx-auto text-center justify-normal mt-10 mb-10">
+            <div className="max-w-4xl mx-auto text-center justify-normal mt-12 mb-10">
                 <motion.img
                     initial={{
                         opacity: 0,

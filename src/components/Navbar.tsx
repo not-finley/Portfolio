@@ -20,7 +20,7 @@ const Navbar = () => {
 
     return (
         <nav className='navbar'>
-            <div className={slide ? 'logo slide-right' : 'logo'}>
+            <div className="logo">
                 <img src={logo} alt="Logo" className="h-10 w-10" />
                 <h3 className='font-extrabold text-3xl text-yellow-300'>Finley Harrison</h3>
             </div>
@@ -76,6 +76,19 @@ const Navbar = () => {
                     onClick={handleClose}
                     >
                     Experience
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                    href='#artwork'
+                    to="artwork" 
+                    spy={true} 
+                    smooth={true} 
+                    duration={500} 
+                    activeClass="active" 
+                    onClick={handleClose}
+                    >
+                    Artwork
                     </Link>
                 </li>
                 <li>

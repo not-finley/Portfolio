@@ -1,17 +1,60 @@
 import { FaGithub } from "react-icons/fa6";
 import { CiLinkedin } from "react-icons/ci";
+import { motion } from "motion/react"
 
 const Footer = () => {
   return (
     <footer className="footer">
-      <div className="contact-bar">
-        <a href="https://github.com/not-finley" target="_blank" rel="noopener noreferrer">
+      <motion.div
+        initial={{
+          opacity: 0,
+          scaleX: 0
+        }}
+        animate={{ 
+            opacity: 100,
+            scaleX: 1
+        }}
+        transition={{
+            delay: 1,
+            duration: 1,
+            ease: 'backInOut'
+        }}
+        className="contact-bar">
+        <motion.a
+          initial={{
+            opacity: 0,
+            scale:0
+          }}
+          animate={{ 
+              opacity: 100,
+              scale: [1.2, 1]
+          }}
+          transition={{
+              delay: 1.5,
+              duration: .3,
+              ease:"backInOut"
+          }}
+          href="https://github.com/not-finley" target="_blank" rel="noopener noreferrer">
             <FaGithub />
-        </a>
-        <a href="https://www.linkedin.com/in/finley-harrison-163b16291/" target="_blank" rel="noopener noreferrer">
+        </motion.a>
+        <motion.a
+          initial={{
+            opacity: 0,
+            scale:0
+          }}
+          animate={{ 
+              opacity: 100,
+              scale: [1.2, 1]
+          }}
+          transition={{
+              delay: 1.5,
+              duration: .3,
+              ease:"backInOut"
+          }}
+          href="https://www.linkedin.com/in/finley-harrison-163b16291/" target="_blank" rel="noopener noreferrer">
             <CiLinkedin />
-        </a>
-      </div>
+        </motion.a>
+      </motion.div>
     </footer>
   )
 }

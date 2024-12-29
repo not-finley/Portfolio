@@ -1,5 +1,5 @@
 .navbar {
-    @apply text-white p-4 flex justify-between items-center fixed w-full top-0 m-0;
+    @apply text-white p-4 flex justify-between items-center fixed w-full top-0 m-0 backdrop-blur-md;
     z-index: 5;
 }
 
@@ -40,14 +40,9 @@
         z-index: 5;
     }
 
-    .mobile-menu {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
     .nav-menu {
-        @apply absolute flex-col text-center w-1/2 h-screen bg-slate-900 opacity-90 top-0 -right-full p-20;
+        @apply absolute bg-blue-950 opacity-95 flex-col text-center w-1/2 h-screen -right-full pt-20 top-0; 
+        z-index: 1;
         transition: 0.3s ease-in-out;
     }
     
