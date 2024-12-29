@@ -30,21 +30,21 @@ const Artwork = () => {
   ];
 
   return (
-    <div id="artwork" className="bg-blue-800 flex flex-col items-center justify-center min-h-screen">
+    <div id="artwork" className="bg-blue-800 flex flex-col items-center justify-center h-auto">
       <h1 className="text-4xl font-bold text-white mb-8 mt-24">Artwork</h1>
       <Carousel
         responsive={responsive}
         infinite
         autoPlay
-        autoPlaySpeed={5000}
+        autoPlaySpeed={4000}
         showDots
         dotListClass="custom-dot-list-style"
         containerClass="carousel-container mb-20"
       >
         {slides.map((item) => {
           return (
-            <div key={item.id} className="h-screen text-center flex items-center justify-center">
-              <img src={item.img}/>
+            <div key={item.id} className="h-full text-center flex items-center justify-center">
+              <img src={item.img} className="h-fit"/>
             </div>
           );
         })}
