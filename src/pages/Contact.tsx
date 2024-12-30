@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import emailjs from '@emailjs/browser';
-import { CircularLoading, SpinLoading } from 'respinner';
+import { SpinLoading } from 'respinner';
 import { Slide, ToastContainer, toast } from 'react-toastify';
 
 const Contact = () => {
