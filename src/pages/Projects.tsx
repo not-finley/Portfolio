@@ -45,6 +45,15 @@ const Projects: React.FC = () => {
             isActive: true,
         },
         {
+            title: 'Eularian Fluid Dynamics',
+            description: 'A simple Java Script Eularian simulation',
+            image: '/assets/images/Eularian.png',
+            link: 'https://github.com/not-finley/MIT_6.837',
+            alt: 'middle of hires Tunnel simulation',
+            active: 'https://eularian-fluid-dynamics.vercel.app/',
+            isActive: true,
+        },
+        {
             title: 'MIT 6.837 Assignments',
             description: 'A few assignments in the MIT introduction to raytracing course',
             image: '/assets/images/MIT.png',
