@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import emailjs from '@emailjs/browser';
-import { SpinLoading } from 'respinner';
+import { BounceLoading } from 'respinner';
 import { Slide, ToastContainer, toast } from 'react-toastify';
 
 const Contact = () => {
@@ -75,7 +75,7 @@ const Contact = () => {
                         disabled={isSubmitting}
                         className="bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-400"
                     >
-                        {isSubmitting ? <SpinLoading fill="white" borderRadius={4} count={12}/> : 'Send'}
+                        {isSubmitting ? <BounceLoading gap={5} height={20} fill="white"/> : 'Send'}
                     </button>
                     <ToastContainer
                         position="bottom-right"
