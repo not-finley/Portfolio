@@ -8,7 +8,7 @@ const PastExperience = () => {
       description: "Streamlined workflows and improved user experience through technical support excellence.",
     },
     {
-      title: "3D Generalist3",
+      title: "3D Generalist",
       company: "Nettwerk Music Group",
       duration: "2021 - 2024",
       description: "Created captivating 3d animations for over 50 songs using blender",
