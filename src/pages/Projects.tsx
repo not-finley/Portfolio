@@ -48,7 +48,7 @@ const Projects: React.FC = () => {
             title: 'Eularian Fluid Dynamics',
             description: 'A simple Java Script Eularian simulation',
             image: '/assets/images/Eularian.png',
-            link: 'https://github.com/not-finley/MIT_6.837',
+            link: 'https://github.com/not-finley/Eularian-Fluid-Dynamics',
             alt: 'middle of hires Tunnel simulation',
             active: 'https://eularian-fluid-dynamics.vercel.app/',
             isActive: true,
