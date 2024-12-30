@@ -4,10 +4,15 @@ import "react-multi-carousel/lib/styles.css";
 
 const Artwork = () => {
   const responsive = {
+    lagedesktop: {
+      breakpoint: { max: 8000, min: 3000 },
+      items: 3,
+      slidesToSlide: 1 // optional, default to 1.
+    },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 2,
-      slidesToSlide: 2 // optional, default to 1.
+      slidesToSlide: 1 // optional, default to 1.
     },
     tablet: {
       breakpoint: { max: 1024, min: 768 },
