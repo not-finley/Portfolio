@@ -1,9 +1,9 @@
 import { FormEvent, useState } from "react";
 import emailjs from '@emailjs/browser';
+import { BiLoader } from "react-icons/bi";
 
 const Contact = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [stateMessage, setStateMessage] = useState<string | null>(null);
 
     const sendEmail = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -18,16 +18,10 @@ const Contact = () => {
             (result) => {
                 console.log(result);
                 setIsSubmitting(false);
-                setTimeout(() => {
-                    setStateMessage(null);
-                }, 5000); // hide message after 5 seconds
             },
             (error) => {
                 console.log(error);
                 setIsSubmitting(false);
-                setTimeout(() => {
-                    setStateMessage(null);
-                }, 5000); // hide message after 5 seconds
             }
         );
 
@@ -66,7 +60,7 @@ const Contact = () => {
                         disabled={isSubmitting}
                         className="bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-400"
                     >
-                        Send
+                        {isSubmitting?<BiLoader/>:'Send'}
                     </button>
                 </form>
             </div>
