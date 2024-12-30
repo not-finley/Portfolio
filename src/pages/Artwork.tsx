@@ -27,7 +27,7 @@ const Artwork = () => {
     { id: 3, img: "assets/images/Fractal.png", alt: "3d render of a fractal" },
     { id: 4, img: "assets/images/Fractal2.png", alt: "3d render of a fractal"  },
     { id: 5, img: "assets/images/Perfume.png", alt: "City of Perfume bottles at day"  },
-    { id: 6, img: "assets/images/Perfume.png", alt: "City of Perfume bottles at night" }
+    { id: 6, img: "assets/images/Perfume2.png", alt: "City of Perfume bottles at night" }
   ];
 
   return (
