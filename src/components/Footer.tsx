@@ -15,7 +15,7 @@ const Footer = () => {
             scaleX: 1
         }}
         transition={{
-            delay: 1,
+            delay: 2.2,
             duration: 1,
             ease: 'backInOut'
         }}
@@ -27,10 +27,10 @@ const Footer = () => {
           }}
           animate={{ 
               opacity: 100,
-              scale: [1.2, 1]
+              scale: [1.4, 1]
           }}
           transition={{
-              delay: 1.5,
+              delay: 2.8,
               duration: .3,
               ease:"backInOut"
           }}
@@ -44,10 +44,10 @@ const Footer = () => {
           }}
           animate={{ 
               opacity: 100,
-              scale: [1.2, 1]
+              scale: [1.4, 1]
           }}
           transition={{
-              delay: 1.5,
+              delay: 2.8,
               duration: .3,
               ease:"backInOut"
           }}

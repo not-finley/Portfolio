@@ -22,12 +22,12 @@ const Artwork = () => {
   };
 
   const slides = [
-    { id: 1, img: "assets/images/ViClay.png" },
-    { id: 2, img: "assets/images/Vi.png" },
-    { id: 3, img: "assets/images/Fractal.png" },
-    { id: 4, img: "assets/images/Fractal2.png" },
-    { id: 5, img: "assets/images/Perfume.png" },
-    { id: 6, img: "assets/images/Perfume.png"}
+    { id: 1, img: "assets/images/ViClay.png", alt: "3d sculpture of Vi"},
+    { id: 2, img: "assets/images/Vi.png", alt: "Painted 3d sculpture of Vi" },
+    { id: 3, img: "assets/images/Fractal.png", alt: "3d render of a fractal" },
+    { id: 4, img: "assets/images/Fractal2.png", alt: "3d render of a fractal"  },
+    { id: 5, img: "assets/images/Perfume.png", alt: "City of Perfume bottles at day"  },
+    { id: 6, img: "assets/images/Perfume.png", alt: "City of Perfume bottles at night" }
   ];
 
   return (
@@ -45,7 +45,7 @@ const Artwork = () => {
         {slides.map((item) => {
           return (
             <div key={item.id} className="h-full text-center flex items-center justify-center">
-              <img src={item.img} className="h-fit"/>
+              <img src={item.img} className="h-fit" alt={item.alt}/>
             </div>
           );
         })}
