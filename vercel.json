@@ -1,1 +1,0 @@
-{ "redirects": [ { "source": "http://finleyharrison.ca/:path*", "destination": "https://finleyharrison.ca/:path*", "permanent": true } ] }
