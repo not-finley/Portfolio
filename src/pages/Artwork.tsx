@@ -44,7 +44,7 @@ const Artwork = () => {
       >
         {slides.map((item) => {
           return (
-            <div key={item.id} className="h-full text-center flex items-center justify-center">
+            <div key={item.id} className="overflow-hidden h-full flex flex-col items-center justify-center">
               <img src={item.img} className="h-fit" alt={item.alt}/>
             </div>
           );
