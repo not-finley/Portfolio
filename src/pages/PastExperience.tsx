@@ -69,10 +69,10 @@ const PastExperience = () => {
               animate={mainControls}
               transition={{duration: 0.5, delay: exp.delay}}
               className="p-4 bg-blue-800 shadow-md rounded-lg hover:bg-blue-900">
-              <h2 className="text-xl font-semibold">{exp.title}</h2>
-              <p className="text-gray-200">{exp.company}</p>
+              <h2 className="text-xl font-semibold text-white">{exp.title}</h2>
+              <p className="text-gray-300">{exp.company}</p>
               <p className="text-sm text-gray-300">{exp.duration}</p>
-              <p className="mt-2">{exp.description}</p>
+              <p className="mt-2 text-gray-300">{exp.description}</p>
             </motion.div>
           </div>
         ))}

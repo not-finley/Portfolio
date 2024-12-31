@@ -13,6 +13,7 @@ interface Project {
     active?: string;
     alt: string;
     isActive: boolean;
+    tags: string[];
 }
 
 const Projects: React.FC = () => {
@@ -25,6 +26,8 @@ const Projects: React.FC = () => {
             active: 'https://juke-box-zeta.vercel.app/',
             alt: 'Jukebox website',
             isActive: true,
+            tags: ["React", "TypeScript", "Appwrite", "Tailwind"]
+
         },
         {
             title: 'Ray Tracer',
@@ -34,33 +37,37 @@ const Projects: React.FC = () => {
             alt: 'Ray traced image',
             active: '',
             isActive: false,
+            tags: ["C++", "OOP", "3D Graphics"]
         },
         {
             title: 'Quartile Solver',
-            description: 'A simple javascript solver for the Apple News Quartile game',
+            description: 'A JavaScript solver for the Apple News Quartile game',
             image: '/assets/images/QuartileSolver.png',
             link: 'https://github.com/not-finley/QuartileSolver',
             alt: 'Quartile Solver',
             active: 'https://quartile-solver-beige.vercel.app/',
             isActive: true,
+            tags: ["JavaScript", "HTML/CSS", "Backtracking"]
         },
         {
             title: 'Eularian Fluid Dynamics',
-            description: 'A simple Java Script Eularian simulation',
+            description: 'A JavaScript Eularian simulation',
             image: '/assets/images/Eularian.png',
             link: 'https://github.com/not-finley/Eularian-Fluid-Dynamics',
             alt: 'middle of hires Tunnel simulation',
             active: 'https://eularian-fluid-dynamics.vercel.app/',
             isActive: true,
+            tags: ["JavaScript", "HTML/CSS"]
         },
         {
             title: 'MIT 6.837 Assignments',
             description: 'A few assignments in the MIT introduction to raytracing course',
             image: '/assets/images/MIT.png',
             link: 'https://github.com/not-finley/MIT_6.837',
-            alt: '3d wine glass',
+            alt: '3D wine glass',
             active: '',
             isActive: false,
+            tags: ["C++", "3D Graphics"]
         },
     ];
 
@@ -101,13 +108,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 className="w-full h-48 object-cover"
             />
             <div className="p-4 text-center flex-col justify-normal content-center">
-                <h2 className="text-2xl font-bold">{project.title}</h2>
-                <p className="text-gray-300">{project.description}</p>
+                <h2 className="text-2xl p-3 font-bold">{project.title}</h2>
+                <p className=" text-gray-300 mb-2">{project.description}</p>
+                {project.tags.map((tag, idx) => (
+                    <p key={idx} className=" mb-2 p-2 border border-blue-400 rounded-md text-sm inline-block mr-2">
+                        {tag}
+                    </p>
+                ))}
                 <div className="flex gap-7 justify-center text-center">
                     <a
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-label={`Visit GitHub repository for ${project.title}`}
                         className="text-blue-400 underline mt-2 block"
                     >
                         <FaGithub className="size-10" />
@@ -117,6 +130,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             href={project.active}
                             target="_blank"
                             rel="noopener noreferrer"
+                            aria-label={`Visit live demo of ${project.title}`}
                             className="text-blue-400 underline mt-2 block"
                         >
                             <HiSignal className="size-10" />
