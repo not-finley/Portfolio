@@ -32,7 +32,7 @@ const Navbar = () => {
                         x: 0
                     }}
                     transition={{
-                        delay: 1,
+                        delay: .7,
                         duration: 2,
                         ease: "backInOut"
                     }}

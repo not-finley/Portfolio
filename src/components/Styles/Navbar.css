@@ -88,11 +88,6 @@
     .hide {
         display: none;
     }
-
-   /* .navbar .slide-right {
-        @apply ml-10;
-        transition: .9s ease-in-out;
-    } */
 }
 @media screen and (max-width: 495px) {
     .nav-menu {

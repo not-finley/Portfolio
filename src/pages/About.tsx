@@ -66,7 +66,7 @@ const About = () => {
                     duration={500}
                     className="inline-flex items-center justify-center bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-400 hover:text-white mt-5"
                 >
-                    Lets Talk!
+                    Lets Chat!
                 </Link>
             </div>
         </motion.div>

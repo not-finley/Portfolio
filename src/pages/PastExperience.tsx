@@ -30,14 +30,14 @@ const PastExperience = () => {
       company: "Nettwerk Music Group",
       duration: "2021 - 2024",
       description: "Created captivating 3d animations for over 50 songs using blender",
-      delay: 0.7
+      delay: 1
     },
     {
       title: "Lifeguard/Swim Instructor",
       company: "City of Waterloo",
       duration: "Jun 2023 - Sep 2023",
       description: "Worked as a team to maintain safety, held a high level of responsibility. Taught students of all ages and abilities how to swim.",
-      delay: 1
+      delay: 1.6
     },
   ];
   return (
