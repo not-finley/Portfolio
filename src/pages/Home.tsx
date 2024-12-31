@@ -1,6 +1,7 @@
 import './Styles/home.css'
 import { motion } from "motion/react"
 import { Link } from 'react-scroll';
+import logo from '/FinleyLogo.svg';
 
 const Home = () => {
     const handleDownload = () => {
@@ -28,7 +29,7 @@ const Home = () => {
                         duration: 1,
                         ease: "backInOut"
                     }}
-                    src="FinleyLogo.svg"
+                    src={logo}
                     alt="logo"
                     className='w-1/2 max-w-96 lg:max-w-lg'
                 />
