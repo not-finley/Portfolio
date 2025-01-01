@@ -41,7 +41,7 @@ const Projects: React.FC = () => {
         },
         {
             title: 'Quartile Solver',
-            description: 'A JavaScript solver for the Apple News Quartile game',
+            description: 'A Apple News Quartile game Solver',
             image: '/assets/images/QuartileSolver.png',
             link: 'https://github.com/not-finley/QuartileSolver',
             alt: 'Quartile Solver',
@@ -61,7 +61,7 @@ const Projects: React.FC = () => {
         },
         {
             title: 'MIT 6.837 Assignments',
-            description: 'A few assignments in the MIT introduction to raytracing course',
+            description: 'Assignments in an MIT Raytracing course',
             image: '/assets/images/MIT.png',
             link: 'https://github.com/not-finley/MIT_6.837',
             alt: '3D wine glass',
