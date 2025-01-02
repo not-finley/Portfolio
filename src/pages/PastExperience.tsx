@@ -49,7 +49,13 @@ const PastExperience = () => {
       animate={mainControls}
       transition={{duration: 0.5, delay: 0.1}}
       ref={ref} className="text-4xl text-center font-bold text-white mb-8 mt-24">Work Experience</motion.h1>
-      <div className=" max-w-2xl relative border-l border-gray-300 m-4">
+      <motion.div 
+      initial={{
+        y: 100
+      }}
+      animate={mainControls}
+      transition={{duration: 0.5, delay: 0.1}}
+      className=" max-w-2xl relative border-l border-gray-300 m-4">
         {experiences.map((exp, index) => (
           <div 
           key={index} className="mb-8 ml-6">
@@ -76,7 +82,7 @@ const PastExperience = () => {
             </motion.div>
           </div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -58,16 +58,25 @@ const About = () => {
                 className="text-gray-300 text-lg ml-7 mr-7">
                     I thrive on learning and collaboration, always eager to connect with others, exchange ideas, and take on new challenges. Whether it’s diving into a new project or brainstorming innovative solutions, I’m excited to contribute and grow. Let’s connect and create something amazing together!
                 </motion.p>
-                <Link 
-                    href='#contact' 
-                    to="contact"
-                    spy={true} 
-                    smooth={true} 
-                    duration={500}
-                    className="inline-flex items-center justify-center bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-400 hover:text-white mt-5"
-                >
-                    Lets Chat!
-                </Link>
+                <motion.div
+                initial={{
+                    opacity: 0,
+                    y: 50
+                }}
+                animate={mainControls}
+                transition={{duration: 0.5, delay: 1.4}}>
+                    <Link 
+                        href='#contact' 
+                        to="contact"
+                        spy={true} 
+                        smooth={true} 
+                        duration={500}
+                        className="inline-flex items-center justify-center bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-400 hover:text-white mt-5"
+                    >
+                        Lets Chat!
+                    </Link>
+                </motion.div>
+                
             </div>
         </motion.div>
     );
