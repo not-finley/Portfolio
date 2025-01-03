@@ -6,7 +6,7 @@ import logo from '/FinleyLogo.svg';
 const Home = () => {
     const handleDownload = () => {
         const link = document.createElement("a");
-        link.href = `/Resume.pdf`;
+        link.href = `/finley's-resume.pdf`;
         link.download = "finley's_Resume.pdf"; 
         link.click();
     };
