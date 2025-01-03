@@ -18,11 +18,11 @@ const Home = () => {
                 <motion.img
                     initial={{
                         opacity: 0,
-                        transform: "translateX(-40px)"
+                        x: -40
                     }}
                     animate={{ 
                         opacity: 100,
-                        transform: "translateX(0px)"
+                        x: 0
                     }}
                     transition={{
                         delay: .2,
@@ -62,7 +62,7 @@ const Home = () => {
                         y: 0
                     }}
                     transition={{
-                        delay: .7,
+                        delay: .3,
                         duration: .75,
                         ease: 'backInOut'
                     }}
@@ -81,7 +81,7 @@ const Home = () => {
                                 y: 0
                             }}
                             transition={{
-                                delay: .9,
+                                delay: .4,
                                 duration: .75,
                                 ease: 'backInOut'
                             }} 
@@ -107,7 +107,7 @@ const Home = () => {
                                 y: 0
                             }}
                             transition={{
-                                delay: .9,
+                                delay: .5,
                                 duration: .75,
                                 ease: 'backInOut'
                             }} 

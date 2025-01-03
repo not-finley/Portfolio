@@ -32,8 +32,8 @@ const Navbar = () => {
                         x: 0
                     }}
                     transition={{
-                        delay: .7,
-                        duration: 2,
+                        delay: .9,
+                        duration: 1,
                         ease: "backInOut"
                     }}
                     src={logo} alt="Logo" className="h-10 w-10" 
@@ -48,7 +48,7 @@ const Navbar = () => {
                     y: 0
                 }}
                 transition={{
-                    delay: 1.5,
+                    delay: 1,
                     duration: 1,
                     ease: "backInOut"
                 }} 
