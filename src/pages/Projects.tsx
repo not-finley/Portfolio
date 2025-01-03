@@ -106,6 +106,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 src={project.image}
                 alt={project.alt}
                 className="w-full h-48 object-cover"
+                loading="lazy"
             />
             <div className="p-4 text-center flex-col justify-normal content-center">
                 <h2 className="text-2xl p-3 font-bold">{project.title}</h2>

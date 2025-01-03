@@ -7,22 +7,22 @@ const Artwork = () => {
     lagedesktop: {
       breakpoint: { max: 8000, min: 3000 },
       items: 3,
-      slidesToSlide: 1 // optional, default to 1.
+      slidesToSlide: 1 
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 2,
-      slidesToSlide: 1 // optional, default to 1.
+      slidesToSlide: 1 
     },
     tablet: {
       breakpoint: { max: 1024, min: 768 },
       items: 1,
-      slidesToSlide: 1 // optional, default to 1.
+      slidesToSlide: 1
     },
     mobile: {
       breakpoint: { max: 767, min: 0 },
       items: 1,
-      slidesToSlide: 1 // optional, default to 1.
+      slidesToSlide: 1
     }
   };
 
@@ -50,7 +50,7 @@ const Artwork = () => {
         {slides.map((item) => {
           return (
             <div key={item.id} className="aspect-w-16 aspect-h-9 overflow-hidden h-full flex flex-col items-center justify-center">
-              <img src={item.img} className="w-full h-auto" alt={item.alt}/>
+              <img loading="lazy" src={item.img} className="w-full h-auto" alt={item.alt}/>
             </div>
           );
         })}
