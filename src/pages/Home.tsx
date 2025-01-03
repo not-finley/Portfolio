@@ -18,16 +18,16 @@ const Home = () => {
                 <motion.img
                     initial={{
                         opacity: 0,
-                        x: -40
+                        transform: "translateX(-40px)"
                     }}
                     animate={{ 
                         opacity: 100,
-                        x: 0
+                        transform: "translateX(0px)"
                     }}
                     transition={{
-                        delay: .5,
-                        duration: 1,
-                        ease: "backInOut"
+                        delay: .2,
+                        duration: .6,
+                        ease: "easeOut"
                     }}
                     src={logo}
                     alt="logo"
