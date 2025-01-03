@@ -17,16 +17,15 @@ const Home = () => {
             <div className="container place-content-center mt-10">
                 <motion.img
                     initial={{
-                        opacity: 0,
                         x: -40
                     }}
                     animate={{ 
                         opacity: 100,
-                        x: 0
+                        x: 0,
                     }}
                     transition={{
-                        delay: .2,
-                        duration: .6,
+                        // delay: .2,
+                        duration: 1,
                         ease: "easeOut"
                     }}
                     src={logo}
@@ -36,7 +35,7 @@ const Home = () => {
                 <div>
                     <motion.h1 
                     initial={{
-                        opacity: 0,
+                        // opacity: 0,
                         y: 40
                     }}
                     animate={{ 
@@ -44,8 +43,8 @@ const Home = () => {
                         y: 0
                     }}
                     transition={{
-                        delay: .1,
-                        duration: .75,
+                        // delay: .1,
+                        duration: 1,
                         ease: 'backInOut'
                     }}
                     className="text-5xl font-bold text-white mb-4"
@@ -54,7 +53,7 @@ const Home = () => {
                     </motion.h1>
                     <motion.p
                     initial={{
-                        opacity: 0,
+                        // opacity: 0,
                         y: 40
                     }}
                     animate={{ 
@@ -62,8 +61,8 @@ const Home = () => {
                         y: 0
                     }}
                     transition={{
-                        delay: .3,
-                        duration: .75,
+                        // delay: .3,
+                        duration: 1.3,
                         ease: 'backInOut'
                     }}
                     className="text-lg text-gray-300 mb-8 max-w-lg"
@@ -73,17 +72,19 @@ const Home = () => {
                     <div className="space-x-4 flex items-center justify-center">
                         <motion.div
                             initial={{
-                                opacity: 0,
-                                y: 40
+                                // opacity: 0,
+                                y: 0,
+                                scale: 0,
                             }}
                             animate={{ 
                                 opacity: 100,
-                                y: 0
+                                y: 0,
+                                scale: 1
                             }}
                             transition={{
                                 delay: .4,
                                 duration: .75,
-                                ease: 'backInOut'
+                                ease: 'backOut'
                             }} 
                         >
                             <Link 
@@ -99,17 +100,19 @@ const Home = () => {
                         </motion.div>
                         <motion.button
                             initial={{
-                                opacity: 0,
-                                y: 40
+                                // opacity: 0,
+                                scale: 0,
+                                y: 0
                             }}
                             animate={{ 
                                 opacity: 100,
+                                scale: 1,
                                 y: 0
                             }}
                             transition={{
                                 delay: .5,
                                 duration: .75,
-                                ease: 'backInOut'
+                                ease: 'backOut'
                             }} 
                             onClick={handleDownload} 
                             className="inline-flex items-center justify-center bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-400 hover:text-white"
