@@ -46,7 +46,7 @@ const About = () => {
                 animate={mainControls}
                 transition={{duration: 0.5, delay: 1}}
                 className="text-gray-300 text-lg ml-7 mr-7 mb-5">
-                    I’m a student at the University of Waterloo, majoring in Computational Mathematics, with a strong interest in problem-solving and the intersection of math and technology. Outside of academics, I’m passionate about 3D modeling and graphics, exploring how computational techniques can bring creative visions to life.
+                    I’m a Computer Science student at the University of Waterloo, with a strong interest in problem-solving and the intersection of math and technology. Outside of academics, I’m passionate about 3D modeling and graphics, exploring how computational techniques can bring creative visions to life.
                 </motion.p>
                 <motion.p 
                 initial={{
