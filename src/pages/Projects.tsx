@@ -50,6 +50,16 @@ const Projects: React.FC = () => {
             tags: ["JavaScript", "HTML/CSS", "Backtracking"]
         },
         {
+            title: 'Chaos Attractors',
+            description: 'A web based GPU chaos attractor with millions of particles',
+            image: '/assets/images/Attractor.png',
+            link: 'https://github.com/not-finley/ChaosAttractors',
+            alt: 'Chaos Attractor',
+            active: 'https://gpu-chaos-attractors.vercel.app/',
+            isActive: true,
+            tags: ["GPU", "Shaders", "JavaScript", "HTML/CSS"]
+        },
+        {
             title: 'Eularian Fluid Dynamics',
             description: 'A JavaScript Eularian simulation',
             image: '/assets/images/Eularian.png',
