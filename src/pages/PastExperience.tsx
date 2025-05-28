@@ -28,24 +28,24 @@ const PastExperience = () => {
       title: "Service Desk Specialist",
       company: "University of Waterloo IST",
       duration: "May 2024 - Aug 2024",
-      description: "Streamlined workflows and improved user experience through technical support excellence.",
+      description: "Optimized IT support workflows, enhancing user experience and system efficiency through expert troubleshooting and technical assistance.",
       delay: 0.4
     },
     {
       title: "3D Generalist",
       company: "Nettwerk Music Group",
-      duration: "2021 - 2024",
-      description: "Created captivating 3d animations for over 50 songs using blender",
+      duration: "Jan 2021 - Jan 2024",
+      description: "Designed and animated high-quality 3D visuals for over 50 songs, leveraging Blender to create immersive music experiences.",
       delay: 1
     },
     {
       title: "Lifeguard/Swim Instructor",
       company: "City of Waterloo",
       duration: "Jun 2023 - Sep 2023",
-      description: "Worked as a team to maintain safety, held a high level of responsibility. Taught students of all ages and abilities how to swim.",
+      description: "Ensured public safety through vigilant lifeguarding and emergency response, while delivering personalized swim instruction to students of all ages and skill levels.",
       delay: 1.6
     },
-  ];
+];
   return (
     <div id="experience" className="flex flex-col items-center justify-center h-auto bg-blue-900">
       <motion.h1 
