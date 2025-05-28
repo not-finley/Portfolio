@@ -19,6 +19,12 @@ const PastExperience = () => {
 
   const experiences = [
     {
+      title: "Full Stack Developer", 
+      company: "BCS Automation ltd.", 
+      Duration: "May 2025 - Aug 2025", 
+      description: "Developed and maintained web applications using React, ASP .NET, and Azure. Collaborated with cross-functional teams to deliver high-quality software solutions.",
+    },
+    {
       title: "Service Desk Specialist",
       company: "University of Waterloo IST",
       duration: "May 2024 - Aug 2024",
