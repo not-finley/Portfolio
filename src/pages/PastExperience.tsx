@@ -21,7 +21,7 @@ const PastExperience = () => {
     {
       title: "Full Stack Developer", 
       company: "BCS Automation ltd.", 
-      Duration: "May 2025 - Aug 2025", 
+      duration: "May 2025 - Aug 2025", 
       description: "Developed and maintained web applications using React, ASP .NET, and Azure. Collaborated with cross-functional teams to deliver high-quality software solutions.",
     },
     {
