@@ -95,7 +95,7 @@ const Home = () => {
                                 duration={500}
                                 className="inline-flex items-center justify-center bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-400 hover:text-white"
                             >
-                                Checkout My Work
+                                Check Out My Work
                             </Link>
                         </motion.div>
                         <motion.button

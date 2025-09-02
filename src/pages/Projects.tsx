@@ -29,17 +29,17 @@ const Projects: React.FC = () => {
             tags: ["React", "TypeScript", "Appwrite", "Tailwind"]
 
         },
-        {
-            title: 'Plynt',
-            description: 'A 3D texturing tool',
-            image: '/assets/images/Plynt.png',
-            link: 'https://github.com/not-finley/Plynt',
-            active: 'https://plynt-blush.vercel.app/',
-            alt: 'Plynt website',
-            isActive: true,
-            tags: ["React", "TypeScript", "WebGPU", "Tailwind"]
+        // {
+        //     title: 'Plynt',
+        //     description: 'A 3D texturing tool',
+        //     image: '/assets/images/Plynt.png',
+        //     link: 'https://github.com/not-finley/Plynt',
+        //     active: 'https://plynt-blush.vercel.app/',
+        //     alt: 'Plynt website',
+        //     isActive: true,
+        //     tags: ["React", "TypeScript", "WebGPU", "Tailwind"]
 
-        },
+        // },
         {
             title: 'Ray Tracer',
             description: 'A C++ ray tracer',
