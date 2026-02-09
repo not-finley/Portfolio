@@ -21,14 +21,22 @@ const Projects: React.FC = () => {
         {
             title: 'JukeBox',
             description: 'A social music review platform',
-            image: '/assets/images/JukeBox.png',
+            image: '/assets/images/Jukeboxd.png',
             link: 'https://github.com/not-finley/JukeBox',
-            active: 'https://juke-box-zeta.vercel.app/',
+            active: 'https://jukeboxd.ca',
             alt: 'Jukebox website',
             isActive: true,
-            tags: ["React", "TypeScript", "Appwrite", "Tailwind"]
+            tags: ["React", "TypeScript", "Supabase", "Tailwind"]
 
         },
+        {title: 'Guillotine',
+            description: 'A web based version of the classic card game Guillotine',
+            image: '/assets/images/Guillotine.png',
+            link: 'https://github.com/not-finley/Guillotine',
+            active: 'https://guillotine.vercel.app/',
+            alt: 'Guillotine website',
+            isActive: true,
+            tags: ["React", "Websockets", "TypeScript", "Tailwind"]},
         // {
         //     title: 'Plynt',
         //     description: 'A 3D texturing tool',
