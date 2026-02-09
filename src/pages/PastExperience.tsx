@@ -1,12 +1,10 @@
-import { motion, useAnimation, useInView, AnimatePresence } from "motion/react"
-import { useEffect, useRef, useState } from "react";
+import { motion, useAnimation, useInView } from "motion/react"
+import { useEffect, useRef } from "react";
 
 const PastExperience = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true});
   const mainControls = useAnimation();
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-
   useEffect(() => {
     if (isInView) {
         mainControls.start({
@@ -51,52 +49,48 @@ const PastExperience = () => {
 ];
 
   return (
-    <div className="relative min-h-screen bg-blue-900 text-white p-10">
-      <h1 className="text-4xl font-bold text-center mb-12">Work Experience</h1>
-
-      <div className="max-w-2xl mx-auto space-y-8">
-        {experiences.map((exp) => (
-          <motion.div
-            key={exp.id}
-            layoutId={exp.id}
-            onClick={() => setSelectedId(exp.id)}
-            className="p-4 bg-blue-800 rounded-lg shadow-md hover:bg-blue-700" // cursor="pointer"
-          >
-            <h2 className="text-xl font-semibold">{exp.title}</h2>
-            <p>{exp.company}</p>
-            <p className="text-sm">{exp.duration}</p>
-            <p className="mt-2 text-gray-300">{exp.description}</p>
-          </motion.div>
-        ))}
-      </div>
-
-      <AnimatePresence>
-        {selectedId && (
-          <motion.div
-            layoutId={selectedId}
-            className="fixed top-0 left-0 w-full h-full bg-blue-950 z-50 p-10 overflow-y-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedId(null)}
-          >
-            <motion.div className="max-w-3xl mx-auto">
-              <h2 className="text-3xl font-bold mb-4">{experiences.find(e => e.id === selectedId)?.title}</h2>
-              <p className="text-lg mb-2">{experiences.find(e => e.id === selectedId)?.company}</p>
-              <p className="text-sm mb-4">{experiences.find(e => e.id === selectedId)?.duration}</p>
-              <p className="mb-4 text-gray-300">{experiences.find(e => e.id === selectedId)?.details}</p>
-              {/* {experiences.find(e => e.id === selectedId)?.image && (
-                <img
-                  src={experiences.find(e => e.id === selectedId)?.image}
-                  alt="screenshot"
-                  className="rounded-lg mt-4"
-                />
-              )} */}
-              <p className="mt-6 text-sm text-gray-400">Click anywhere to close</p>
+    <div id="experience" className="flex flex-col items-center justify-center h-auto bg-blue-900">
+      <motion.h1 
+      initial={{
+        y: -50
+      }}
+      animate={mainControls}
+      transition={{duration: 0.5, delay: 0.1}}
+      ref={ref} className="text-4xl text-center font-bold text-white mb-8 mt-24">Work Experience</motion.h1>
+      <motion.div 
+      initial={{
+        y: 100
+      }}
+      animate={mainControls}
+      transition={{duration: 0.5, delay: 0.1}}
+      className=" max-w-2xl relative border-l border-gray-300 m-4">
+        {experiences.map((exp, index) => (
+          <div 
+          key={index} className="mb-8 ml-6">
+            <motion.div 
+            initial={{
+              opacity: 1,
+              scale: 0
+            }}
+            animate={mainControls}
+            transition={{duration: 0.5, delay: exp.delay}}
+            className="absolute -left-3 w-6 h-6 bg-blue-500 rounded-full border border-white"></motion.div>
+            <motion.div 
+              initial={{
+                opacity: 0,
+                y: 100
+              }}
+              animate={mainControls}
+              transition={{duration: 0.5, delay: exp.delay}}
+              className="p-4 bg-blue-800 shadow-md rounded-lg hover:bg-blue-900">
+              <h2 className="text-xl font-semibold text-white">{exp.title}</h2>
+              <p className="text-gray-300">{exp.company}</p>
+              <p className="text-sm text-gray-300">{exp.duration}</p>
+              <p className="mt-2 text-gray-300">{exp.description}</p>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        ))}
+      </motion.div>
     </div>
   );
 }
