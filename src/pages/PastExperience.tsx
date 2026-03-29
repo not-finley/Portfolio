@@ -17,13 +17,16 @@ const PastExperience = () => {
   }, [isInView])  
 
   const experiences = [
+    {      title: "Software Developer Intern", 
+      company: "Rocscience Inc.", 
+      duration: "January 2026 - April 2026",
+      description: "Developed and integrated core features for RSLog’s Laboratory Information Management System, building responsive ASP.NET-based interfaces and backend data pipelines to support sample tracking, test processing, automated reporting, and reliable geotechnical data validation in an Agile environment."
+    },
     {
-      // id: "bcs",
       title: "Full Stack Developer", 
       company: "BCS Automation ltd.", 
       duration: "May 2025 - Aug 2025", 
       description: "Developed and maintained web applications using React, ASP .NET, and Azure. Collaborated with cross-functional teams to deliver high-quality software solutions.",
-      // details:"Telemetry ingestion with EventHub + ADX. Integrated anomaly detection. Made an internal chatbot with Python + Ollama."
     },
     {
       title: "Service Desk Specialist",
