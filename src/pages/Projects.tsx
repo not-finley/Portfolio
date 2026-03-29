@@ -126,17 +126,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     return (
         <motion.div
             ref={ref}
-            className="bg-blue-900 rounded-lg overflow-hidden shadow-xl hover:bg-blue-800"
+            whileHover={{ 
+                y: -10,
+                rotateX: 5,
+                rotateY: -5,
+                transition: { duration: 0.2 }
+            }}
+            style={{ perspective: "1000px" }} // Added depth
+            className="group bg-slate-900 border border-white/5 rounded-2xl overflow-hidden shadow-2xl"
             initial={{ opacity: 0, y:100 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
         >
-            <img
-                src={project.image}
-                alt={project.alt}
-                className="w-full h-48 object-cover"
-                loading="lazy"
-            />
+            <div className="relative overflow-hidden">
+                <img src={project.image} className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60" />
+            </div>
             <div className="p-4 text-center flex-col justify-normal content-center">
                 <h2 className="text-2xl p-3 font-bold">{project.title}</h2>
                 <p className=" text-gray-300 mb-2">{project.description}</p>

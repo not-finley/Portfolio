@@ -67,32 +67,21 @@ const PastExperience = () => {
       animate={mainControls}
       transition={{duration: 0.5, delay: 0.1}}
       className=" max-w-2xl relative border-l border-gray-300 m-4">
-        {experiences.map((exp, index) => (
-          <div 
-          key={index} className="mb-8 ml-6">
+      {experiences.map((exp, index) => (
+        <div key={index} className="mb-12 ml-8 relative">
+            <div className="absolute -left-[41px] top-2 w-4 h-4 bg-blue-500 rounded-full shadow-[0_0_15px_rgba(59,130,246,1)]" />
+            
             <motion.div 
-            initial={{
-              opacity: 1,
-              scale: 0
-            }}
-            animate={mainControls}
-            transition={{duration: 0.5, delay: exp.delay}}
-            className="absolute -left-3 w-6 h-6 bg-blue-500 rounded-full border border-white"></motion.div>
-            <motion.div 
-              initial={{
-                opacity: 0,
-                y: 100
-              }}
-              animate={mainControls}
-              transition={{duration: 0.5, delay: exp.delay}}
-              className="p-4 bg-blue-800 shadow-md rounded-lg hover:bg-blue-900">
-              <h2 className="text-xl font-semibold text-white">{exp.title}</h2>
-              <p className="text-gray-300">{exp.company}</p>
-              <p className="text-sm text-gray-300">{exp.duration}</p>
-              <p className="mt-2 text-gray-300">{exp.description}</p>
+                whileHover={{ x: 10 }}
+                className="p-6 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl hover:border-blue-500/50 transition-colors"
+            >
+                <span className="text-xs font-mono text-blue-400 uppercase tracking-widest">{exp.duration}</span>
+                <h2 className="text-2xl font-bold text-white mt-1">{exp.title}</h2>
+                <p className="text-blue-200/70 font-medium mb-3">{exp.company}</p>
+                <p className="text-slate-400 leading-relaxed">{exp.description}</p>
             </motion.div>
-          </div>
-        ))}
+        </div>
+    ))}
       </motion.div>
     </div>
   );
