@@ -10,76 +10,68 @@ const About = () => {
     useEffect(() => {
         if (isInView) {
             mainControls.start({
-                opacity: 100,
+                opacity: 1, // Fixed scale
                 y: 0
             })
         }
-    }, [isInView])
+    }, [isInView, mainControls])
+
     return (
         <motion.div
-            id="about" className="content bg-blue-900 h-auto py-10 px-4 items-center flex">
-            <div className="max-w-4xl mx-auto text-center justify-normal mt-12 mb-10">
-                <motion.img
-                    initial={{
-                        opacity: 0,
-                        y: 50
-                    }}
-                    animate={mainControls}
-                    transition={{duration: 0.5, delay: .1}}
-                    src="FinleyLogo.svg"
-                    alt="Profile"
-                    className="w-32 h-32 mx-auto mb-6 z-5"
-                />
+            id="about" 
+            className="content bg-blue-900 min-h-[50vh] py-20 px-4 items-center flex"
+        >
+            <div className="max-w-4xl mx-auto text-center mt-12 mb-10">
                 <motion.h1
-                initial={{
-                    opacity: 0,
-                    y: 50
-                }}
-                animate={mainControls}
-                transition={{duration: 0.5, delay: .5}}
-                className="text-3xl font-bold text-grey-300 mb-4">About Me</motion.h1>
-                <motion.p ref={ref} 
-                initial={{
-                    opacity: 0,
-                    y: 50
-                }}
-                animate={mainControls}
-                transition={{duration: 0.5, delay: 1}}
-                className="text-gray-300 text-lg ml-7 mr-7 mb-5">
-                    I’m a Computer Science student at the University of Waterloo, with a strong interest in problem-solving and the intersection of math and technology. Outside of academics, I’m passionate about 3D modeling and graphics, exploring how computational techniques can bring creative visions to life.
-                </motion.p>
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={mainControls}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                    className="text-4xl font-bold text-gray-100 mb-6"
+                >
+                    About Me
+                </motion.h1>
+
                 <motion.p 
-                initial={{
-                    opacity: 0,
-                    y: 50
-                }}
-                animate={mainControls}
-                transition={{duration: 0.5, delay: 1.2}}
-                className="text-gray-300 text-lg ml-7 mr-7">
-                    I thrive on learning and collaboration, always eager to connect with others, exchange ideas, and take on new challenges. Whether it’s diving into a new project or brainstorming innovative solutions, I’m excited to contribute and grow. Let’s connect and create something amazing together!
+                    ref={ref} 
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={mainControls}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    className="text-gray-300 text-lg px-4 md:px-8 mb-6 leading-relaxed"
+                >
+                    I’m a Computer Science student at the University of Waterloo. I love building software that lives at the intersection of math and design. Whether it's scaling a social platform like 
+                    <Link to="projects" smooth={true} duration={500} className="text-blue-400 cursor-pointer hover:text-blue-300 transition-colors mx-1 font-medium underline underline-offset-4">Jukeboxd</Link> 
+                    to hundreds of users  or optimizing a 
+                    <Link to="projects" smooth={true} duration={500} className="text-blue-400 cursor-pointer hover:text-blue-300 transition-colors mx-1 font-medium underline underline-offset-4">C++ Ray Tracer</Link> 
+                    for high-performance rendering, I thrive on solving complex technical challenges.
                 </motion.p>
+
+                <motion.p 
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={mainControls}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                    className="text-gray-300 text-lg px-4 md:px-8 leading-relaxed"
+                >
+                    When I’m not coding, I’m usually working in Blender or refining my home-lab setup. I’m always eager to collaborate and exchange ideas. Let’s connect and create something amazing together!
+                </motion.p>
+
                 <motion.div
-                initial={{
-                    opacity: 0,
-                    y: 50
-                }}
-                animate={mainControls}
-                transition={{duration: 0.5, delay: 1.4}}>
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={mainControls}
+                    transition={{ duration: 0.5, delay: 0.7 }}
+                >
                     <Link 
-                        href='#contact' 
                         to="contact"
                         spy={true} 
                         smooth={true} 
                         duration={500}
-                        className="inline-flex items-center justify-center bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-400 hover:text-white mt-5"
+                        className="cursor-pointer inline-flex items-center justify-center bg-blue-500 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-400 transition-all mt-8 shadow-lg shadow-blue-500/20"
                     >
-                        Lets Chat!
+                        Let's Chat!
                     </Link>
                 </motion.div>
-                
             </div>
         </motion.div>
     );
 }
 
-export default About
+export default About;

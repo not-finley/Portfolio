@@ -1,100 +1,37 @@
+
 .navbar {
-    @apply text-white p-4 flex justify-between items-center fixed w-full top-0 m-0 backdrop-blur-sm rounded-3xl;
-    z-index: 5;
+    /* Use env() for notches and home indicators */
+    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+    @apply transition-all duration-500 ease-in-out;
 }
 
-
-.navbar .logo {
-    @apply flex items-center space-x-4;
-    z-index: 5;
-}
-
-.hamburger {
-    display: none;
-    padding: 1rem;
-}
-
-.mobile-menu {
-    display: none;
-}
-
-.nav-menu {
-    display: flex;
-}
-
-.nav-menu li {
-    padding: 1rem;
-}
-
+/* Custom underline animation for desktop links */
 .nav-menu li a {
-    @apply text-white text-base font-semibold
+    position: relative;
+    @apply text-white text-base font-semibold transition-colors duration-300;
 }
 
-.nav-menu li a:hover {
-    @apply text-blue-300
+.nav-menu li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    @apply bg-blue-400 transition-all duration-300;
 }
 
+.nav-menu li a:hover::after {
+    width: 100%;
+}
+
+/* Mobile specific styling */
 @media screen and (max-width: 940px) {
-    .hamburger {
-        display: block;
-        z-index: 5;
-    }
-
     .nav-menu {
-        @apply absolute bg-blue-950 opacity-95 flex-col text-center w-1/2 h-screen -right-full pt-20 top-0; 
-        z-index: 1;
-        transition: 0.3s ease-in-out;
-    }
-    
-    .active {
-        right: 0;
-    }
-
-    .nav-menu li {
-        margin: .5rem;
-    }
-
-    .nav-menu li a {
-        font-size: 1.2rem;
-    }
-
-    .nav-menu li a:hover {
-        @apply font-extrabold
-    }
-
-    .nav-menu button {
-        margin: 1rem auto;
-        padding: .7rem 1.5rem;
-        font-size: 1.2rem;
-        border-radius: 25px;
-        border: none;
-        background: rgba(255, 255, 255, .3);
-        width: 100%;
-        color: #f6f6f6;
-    }
-
-
-    .nav-menu .social-icons {
-        display: flex;
-        justify-content: space-evenly;
-        margin: 1rem;
-    }
-
-    .nav-menu .icon {
-        color: #f8f8f8cc;
-        font-size: 1.4rem;
-    }
-
-    .hide {
-        display: none;
-    }
-}
-@media screen and (max-width: 495px) {
-    .nav-menu {
-        width: 75%;
-    }
-
-    .navbar .slide-right {
-        margin-left: 30%;
+        /* Ensure content is not hidden behind dynamic mobile bars */
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
     }
 }
