@@ -19,12 +19,12 @@ interface Project {
 const Projects: React.FC = () => {
     const projects: Project[] = [
         {
-            title: 'JukeBox',
+            title: 'JukeBoxd',
             description: 'A social music review platform',
             image: '/assets/images/Jukeboxd.png',
             link: 'https://github.com/not-finley/JukeBox',
             active: 'https://jukeboxd.ca',
-            alt: 'Jukebox website',
+            alt: 'Jukeboxd website',
             isActive: true,
             tags: ["React", "TypeScript", "Supabase", "Tailwind"]
 
