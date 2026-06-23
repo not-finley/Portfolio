@@ -88,16 +88,16 @@ const Projects: React.FC = () => {
             isActive: true,
             tags: ["JavaScript", "HTML/CSS"]
         },
-        {
-            title: 'MIT 6.837 Assignments',
-            description: 'Assignments in an MIT Raytracing course',
-            image: '/assets/images/MIT.png',
-            link: 'https://github.com/not-finley/MIT_6.837',
-            alt: '3D wine glass',
-            active: '',
-            isActive: false,
-            tags: ["C++", "3D Graphics"]
-        },
+        // {
+        //     title: 'MIT 6.837 Assignments',
+        //     description: 'Assignments in an MIT Raytracing course',
+        //     image: '/assets/images/MIT.png',
+        //     link: 'https://github.com/not-finley/MIT_6.837',
+        //     alt: '3D wine glass',
+        //     active: '',
+        //     isActive: false,
+        //     tags: ["C++", "3D Graphics"]
+        // },
     ];
 
     return (
