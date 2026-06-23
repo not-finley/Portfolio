@@ -26,8 +26,8 @@ const Navbar = () => {
     const navLinks = [
         { name: 'Home', to: 'home', isRoute: false },
         { name: 'About', to: 'about', isRoute: false },
-        { name: 'Projects', to: 'projects', isRoute: false },
         { name: 'Experience', to: 'experience', isRoute: false },
+        { name: 'Projects', to: 'projects', isRoute: false },
         { name: 'Gallery', to: '/gallery', isRoute: true }, 
         { name: 'Contact', to: 'contact', isRoute: false },
     ];

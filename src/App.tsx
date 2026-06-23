@@ -36,8 +36,8 @@ const MainPortfolio = () => {
     <>
       <Home />
       <About />
-      <Projects />
       <PastExperience />
+      <Projects />
       <Contact />
     </>
   );
