@@ -30,7 +30,7 @@ const PastExperience: React.FC = () => {
       company: "Rocscience Inc.", 
       url: "https://www.rocscience.com/",
       domain: "rocscience.com",
-      duration: "Jan 2026 - Apr 2026",
+      duration: "Winter 2026",
       description: "Engineered an ASP.NET Core Audit Dashboard for system-critical log transactions and deployed batch cleanup processes that reduced database size by 30%. Optimized legacy C# methods to achieve 5x speedups in critical code paths.",
       tags: ["ASP.NET Core", "C#", "SQL Server", "Backend Dev"]
     },
@@ -39,7 +39,7 @@ const PastExperience: React.FC = () => {
       company: "BCS Automation Ltd.", 
       url: "https://bcsautomation.ca/",
       domain: "bcsautomation.ca",
-      duration: "May 2025 - Aug 2025", 
+      duration: "Summer 2025", 
       description: "Architected a real-time data pipeline using Azure EventHub to ingest 2GB/hr of telemetry data and implemented a RAG-based chatbot that reduced info retrieval time by 60%. Cut API response times from 3.2s to 120ms via Redis caching.",
       tags: ["Azure", "Redis", "Python", "RAG / AI", "EventHub"]
     },
@@ -48,7 +48,7 @@ const PastExperience: React.FC = () => {
       company: "University of Waterloo IST",
       url: "https://uwaterloo.ca/information-systems-technology/",
       domain: "uwaterloo.ca",
-      duration: "May 2024 - Aug 2024",
+      duration: "Summer 2024",
       description: "Spearheaded an AI chatbot that drove a 20% decrease in support requests and engineered automated Windows configuration scripts, saving the team over 3 hours of manual work weekly.",
       tags: ["Automation", "Powershell", "ITSM", "Scripting"]
     },

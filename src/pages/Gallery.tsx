@@ -39,40 +39,37 @@ const Gallery = () => {
   );
 
   // Navigation Logic
-  const handlePrev = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Avoid triggering modal close
+  const handlePrev = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation(); 
     if (!selectedImage) return;
     const currentIndex = filteredItems.findIndex((item) => item.id === selectedImage.id);
     const prevIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length;
     setSelectedImage(filteredItems[prevIndex]);
   };
 
-  const handleNext = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Avoid triggering modal close
+  const handleNext = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     if (!selectedImage) return;
     const currentIndex = filteredItems.findIndex((item) => item.id === selectedImage.id);
     const nextIndex = (currentIndex + 1) % filteredItems.length;
     setSelectedImage(filteredItems[nextIndex]);
   };
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (!selectedImage) return;
-            if (e.key === "ArrowRight") {
-            // Trigger your next logic
-            const currentIndex = filteredItems.findIndex((item) => item.id === selectedImage.id);
-            setSelectedImage(filteredItems[(currentIndex + 1) % filteredItems.length]);
-            } else if (e.key === "ArrowLeft") {
-            // Trigger your prev logic
-            const currentIndex = filteredItems.findIndex((item) => item.id === selectedImage.id);
-            setSelectedImage(filteredItems[(currentIndex - 1 + filteredItems.length) % filteredItems.length]);
-            } else if (e.key === "Escape") {
-            setSelectedImage(null);
-            }
-        };
 
-        window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [selectedImage, filteredItems]);
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!selectedImage) return;
+      if (e.key === "ArrowRight") {
+        handleNext();
+      } else if (e.key === "ArrowLeft") {
+        handlePrev();
+      } else if (e.key === "Escape") {
+        setSelectedImage(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedImage, filteredItems]);
 
   return (
     <div className="min-h-screen bg-blue-950 pt-28 pb-16 px-4 md:px-8">
@@ -163,57 +160,79 @@ const Gallery = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedImage(null)}
-              className="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
+              className="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex flex-col items-center justify-center p-4 md:p-8"
             >
               {/* Close Button */}
               <button 
                 onClick={() => setSelectedImage(null)}
-                className="absolute top-6 right-6 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-3 rounded-full transition-all text-xl z-50"
+                className="absolute top-4 right-4 md:top-6 md:right-6 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-3 rounded-full transition-all text-xl z-50"
                 aria-label="Close modal"
               >
                 <FaXmark />
               </button>
 
-              {/* Navigation Left Arrow */}
+              {/* Desktop Navigation Left Arrow */}
               <button
                 onClick={handlePrev}
-                className="absolute left-4 md:left-8 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all text-xl md:text-2xl z-50"
+                className="hidden md:flex absolute left-8 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all text-2xl z-50"
                 aria-label="Previous image"
               >
                 <FaChevronLeft />
               </button>
 
-              {/* Navigation Right Arrow */}
+              {/* Desktop Navigation Right Arrow */}
               <button
                 onClick={handleNext}
-                className="absolute right-4 md:right-8 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all text-xl md:text-2xl z-50"
+                className="hidden md:flex absolute right-8 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all text-2xl z-50"
                 aria-label="Next image"
               >
                 <FaChevronRight />
               </button>
 
-              {/* Modal Box */}
+              {/* Modal Content Box */}
               <motion.div
-                key={selectedImage.id} // Added key here so framer-motion treats image swaps with layout changes smoothly
-                initial={{ scale: 0.95, y: 10, opacity: 0 }}
-                animate={{ scale: 1, y: 0, opacity: 1 }}
-                exit={{ scale: 0.95, y: 10, opacity: 0 }}
+                key={selectedImage.id}
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
                 transition={{ type: "spring", damping: 30, stiffness: 300 }}
                 onClick={(e) => e.stopPropagation()} 
-                className="max-w-5xl max-h-[85vh] flex flex-col gap-4 items-center px-12"
+                className="w-full max-w-4xl flex flex-col gap-4 items-center justify-center"
               >
-                <img
-                  src={selectedImage.img}
-                  alt={selectedImage.alt}
-                  className="rounded-xl object-contain max-w-full max-h-[70vh] shadow-2xl border border-white/10"
-                />
-                <div className="text-center">
-                  <h2 className="text-xl font-bold text-white">{selectedImage.title}</h2>
-                  <p className="text-sm text-slate-400 mt-0.5 capitalize">
+                <div className="w-full flex items-center justify-center max-h-[65vh] md:max-h-[75vh]">
+                  <img
+                    src={selectedImage.img}
+                    alt={selectedImage.alt}
+                    className="rounded-xl object-contain max-w-full max-h-[65vh] md:max-h-[75vh] shadow-2xl border border-white/10"
+                  />
+                </div>
+                
+                <div className="text-center px-4 mt-2">
+                  <h2 className="text-lg md:text-xl font-bold text-white leading-tight">{selectedImage.title}</h2>
+                  <p className="text-xs md:text-sm text-slate-400 mt-1 capitalize">
                     {selectedImage.category === "3d" ? "3D Graphics Modeling" : "Camera Capture"}
                   </p>
                 </div>
               </motion.div>
+
+              {/* Mobile Bottom Navigation Controls */}
+              <div className="flex md:hidden items-center gap-6 mt-6 z-50">
+                <button
+                  onClick={handlePrev}
+                  className="text-slate-400 hover:text-white bg-white/5 active:bg-white/10 p-3.5 rounded-full transition-all text-lg"
+                  aria-label="Previous image"
+                >
+                  <FaChevronLeft />
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="text-slate-400 hover:text-white bg-white/5 active:bg-white/10 p-3.5 rounded-full transition-all text-lg"
+                  aria-label="Next image"
+                >
+                  <FaChevronRight />
+                </button>
+              </div>
+
             </motion.div>
           )}
         </AnimatePresence>
