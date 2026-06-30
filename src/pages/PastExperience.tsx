@@ -21,8 +21,8 @@ const PastExperience: React.FC = () => {
       url: "https://carta.com/",
       domain: "carta.com",
       duration: "Fall 2026",
-      description: "Incoming Software Engineer Intern for the Fall 2026 co-op term.",
-      tags: ["FinTech", "Backend", "Full Stack"],
+      description: "Incoming Software Engineer Intern on the LLC Cap Table team. Excited to build core financial infrastructure, scalable APIs, and data models that enable LLC entities to manage equity ownership.",
+      tags: ["FinTech", "Backend", "Full Stack", "Distributed Systems"],
       isIncoming: true
     },
     {      
