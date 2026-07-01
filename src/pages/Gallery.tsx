@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { FaXmark, FaArrowLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 // Types for our media items
 interface MediaItem {
@@ -15,6 +15,17 @@ interface MediaItem {
 const Gallery = () => {
   const [filter, setFilter] = useState<"all" | "3d" | "photography">("all");
   const [selectedImage, setSelectedImage] = useState<MediaItem | null>(null);
+
+  const ScrollToTop = () => {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+      if (pathname === '/gallery') {
+        window.scrollTo(0, 0);
+      }
+    }, [pathname]);
+    return null;
+  };
 
   // Updated with your 3D artwork assets and photography paths
   const mediaItems: MediaItem[] = [
@@ -72,6 +83,8 @@ const Gallery = () => {
   }, [selectedImage, filteredItems]);
 
   return (
+    <>
+    <ScrollToTop />
     <div className="min-h-screen bg-blue-950 pt-28 pb-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
         
@@ -239,6 +252,7 @@ const Gallery = () => {
 
       </div>
     </div>
+    </>
   );
 };
 

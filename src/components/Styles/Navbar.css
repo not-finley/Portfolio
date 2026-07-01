@@ -1,37 +1,28 @@
-
-.navbar {
-    /* Use env() for notches and home indicators */
+/* Maintain safe areas safely on the main container wrapper */
+.navbar-custom-container {
     padding-top: max(1rem, env(safe-area-inset-top));
     padding-left: max(1rem, env(safe-area-inset-left));
     padding-right: max(1rem, env(safe-area-inset-right));
-    @apply transition-all duration-500 ease-in-out;
 }
 
-/* Custom underline animation for desktop links */
-.nav-menu li a {
-    position: relative;
-    @apply text-white text-base font-semibold transition-colors duration-300;
-}
+/* Premium underline animation—safely scoped ONLY to desktop viewports */
+@media screen and (min-width: 768px) {
+    .desktop-nav-link {
+        position: relative;
+    }
 
-.nav-menu li a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -4px;
-    left: 0;
-    @apply bg-blue-400 transition-all duration-300;
-}
+    .desktop-nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background-color: rgb(96, 165, 250); /* tailwind blue-400 equivalent */
+        transition: width 0.3s ease;
+    }
 
-.nav-menu li a:hover::after {
-    width: 100%;
-}
-
-/* Mobile specific styling */
-@media screen and (max-width: 940px) {
-    .nav-menu {
-        /* Ensure content is not hidden behind dynamic mobile bars */
-        padding-top: env(safe-area-inset-top);
-        padding-bottom: env(safe-area-inset-bottom);
+    .desktop-nav-link:hover::after {
+        width: 100%;
     }
 }
