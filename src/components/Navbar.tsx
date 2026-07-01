@@ -86,11 +86,16 @@ const Navbar = () => {
                     <div className="flex items-center space-x-3">
                         <RouterLink to="/" onClick={handleClose} className="flex items-center space-x-2 z-50">
                             <motion.img 
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.5 }}
-                                src={logo} alt="Logo" className="h-9 w-9 cursor-pointer" 
-                            />
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.5 }}
+                            whileHover={{ 
+                                rotate: 360, 
+                                scale: 1.1,
+                                transition: { type: "spring", stiffness: 200, damping: 10 } 
+                            }}
+                            src={logo} alt="Logo" className="h-9 w-9 cursor-pointer" 
+                        />
                             
                             <motion.h3
                                 initial={{ opacity: 0, x: -20 }}

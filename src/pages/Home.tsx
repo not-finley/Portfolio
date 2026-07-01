@@ -1,10 +1,36 @@
 import './Styles/home.css'
-import { motion } from "framer-motion" // Note: Updated to standard "framer-motion" package import
+import { motion, useMotionValue, useTransform } from "framer-motion"
 import { Link as ScrollLink } from 'react-scroll';
 import { Link as RouterLink } from 'react-router-dom'; 
 import logo from '/FinleyLogo.svg';
 
 const Home = () => {
+    // Set up motion coordinates to track cursor position over the logo
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    // Map mouse coordinates to subtle rotation angles (-15 to 15 degrees)
+    const rotateX = useTransform(mouseY, [-200, 200], [15, -15]);
+    const rotateY = useTransform(mouseX, [-200, 200], [-15, 15]);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
+        // Calculate dynamic relative coordinates from the center of the image bounds
+        const centerX = e.clientX - rect.left - width / 2;
+        const centerY = e.clientY - rect.top - height / 2;
+        
+        mouseX.set(centerX);
+        mouseY.set(centerY);
+    };
+
+    const handleMouseLeave = () => {
+        // Smoothly snap back to dead-center alignment when cursor exits bounds
+        mouseX.set(0);
+        mouseY.set(0);
+    };
+
     const handleDownload = () => {
         const link = document.createElement("a");
         link.href = `/finley's-resume.pdf`;
@@ -13,27 +39,54 @@ const Home = () => {
     };
 
     const buttonVariants = {
-        hover: { scale: 1.03, y: -2, transition: { duration: 0.2 } },
+        hover: { scale: 1.03, y: -2, transition: { type: "spring", stiffness: 400, damping: 10 } },
         tap: { scale: 0.98 }
     };
 
     return (
         <div id="home" className="home min-h-screen flex items-center justify-center relative overflow-hidden bg-slate-950 px-6 py-12">
+            {/* Ambient Background Glow Nodes */}
             <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
             <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="container max-w-6xl mx-auto flex flex-col lg:flex-row-reverse items-center justify-between gap-12 z-10">
                 
-                {/* Hero Logo / Image Section */}
-                <div className="w-full lg:w-1/2 flex justify-center">
-                    <motion.img
-                        initial={{ opacity: 0, scale: 0.95, rotate: -2 }}
-                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                        transition={{ duration: 1.2, ease: "easeOut" }}
-                        src={logo}
-                        alt="Finley Logo"
-                        className='w-2/3 max-w-sm lg:max-w-md drop-shadow-[0_0_35px_rgba(99,102,241,0.15)]'
-                    />
+                {/* Hero Logo / 3D Interactive Section */}
+                <div className="w-full lg:w-1/2 flex justify-center" style={{ perspective: "1000px" }}>
+                    <motion.div
+                        onMouseMove={handleMouseMove}
+                        onMouseLeave={handleMouseLeave}
+                        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+                        className="w-2/3 max-w-sm lg:max-w-md flex justify-center cursor-grab active:cursor-grabbing"
+                        
+                        // Combined Entry Drop + Idle Float loop mechanics
+                        initial={{ opacity: 0, y: -60, rotate: -10, scale: 0.8 }}
+                        animate={{ 
+                            opacity: 1, 
+                            y: [0, -12, 0], // Smooth mechanical bouncing float cycle
+                            rotate: 0,
+                            scale: 1
+                        }}
+                        transition={{
+                            // Entry configuration details
+                            opacity: { duration: 0.6 },
+                            scale: { type: "spring", stiffness: 100, damping: 15 },
+                            // Idle loop float controls (runs indefinitely after loading)
+                            y: {
+                                repeat: Infinity,
+                                duration: 5,
+                                ease: "easeInOut",
+                                delay: 0.8 // Starts floating right after landing animation completes
+                            }
+                        }}
+                    >
+                        <motion.img
+                            src={logo}
+                            alt="Finley Logo"
+                            className='w-full h-auto drop-shadow-[0_0_40px_rgba(99,102,241,0.25)] select-none pointer-events-none'
+                            style={{ transform: "translateZ(40px)" }} // Pushes logo layers upward for authentic parallax tracking
+                        />
+                    </motion.div>
                 </div>
 
                 {/* Hero Text & Actions Section */}
