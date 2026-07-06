@@ -20,7 +20,7 @@ const Projects: React.FC = () => {
         {
             title: 'JukeBoxd',
             description: 'A social music review platform built with TypeScript, leveraging real-time data states.',
-            image: '/assets/images/Jukeboxd.png',
+            image: '/assets/images/Jukeboxd.jpg',
             link: 'https://github.com/not-finley/JukeBox',
             active: 'https://jukeboxd.ca',
             alt: 'Jukeboxd website',
@@ -30,7 +30,7 @@ const Projects: React.FC = () => {
         {
             title: 'Guillotine',
             description: 'A web-based multiplayer version of the classic strategic card game Guillotine.',
-            image: '/assets/images/Guillotine.png',
+            image: '/assets/images/Guillotine.jpg',
             link: 'https://github.com/not-finley/Guillotine',
             active: 'https://guillotine.vercel.app/',
             alt: 'Guillotine website',
