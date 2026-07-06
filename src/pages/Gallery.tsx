@@ -7,6 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 interface MediaItem {
   id: number;
   img: string;
+  previewImg: string;
   alt: string;
   title: string;
   category: "3d" | "photography";
@@ -27,22 +28,61 @@ const Gallery = () => {
     return null;
   };
 
-  // Updated with your 3D artwork assets and photography paths
   const mediaItems: MediaItem[] = [
-    { id: 7, img: "https://immich.finleyharrison.ca/api/assets/a82faad6-53db-42a6-bb52-ac4489b95d93/thumbnail?key=FQ9oIeoxG-H9T1aLUJsKwRlNdHOvfbaRRg1NH_yIo_HMeiZuQ783ix4iyFa9gX7ht4I&size=preview&c=lBgODQLPeWh2h2iGdmiHiM97%2Ba3Z&edited=true",alt: "Sword behind bookshelf", title: "Sword in the Library", category: "photography" },
-    { id: 8, img: "https://immich.finleyharrison.ca/api/assets/adaeca7f-2bb6-48da-91f0-772b176d0726/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=preview&c=2OcRBYKPZYdWdYgyl3mohnT1%2Fnj9&edited=true", alt: "Photo of a Go train", title: "Conductor's View", category: "photography" },
-    { id: 9, img: "https://immich.finleyharrison.ca/api/assets/f751f4a3-8676-46f5-b33b-fe243605dc99/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=preview&c=mvgNDYR1iIeAiIeWiZd3eKqPaQZn&edited=true", alt: "Photo of Pigeons in a park", title: "Pigeon Parade", category: "photography" },
-    { id: 10, img: "https://immich.finleyharrison.ca/api/assets/5ba7df7b-2960-4970-8b2c-2f585a19e394/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=preview&c=FwgKBQJqho%2BJSHV4aZl3hpwI%2FBrQ&edited=true", alt: "Photo of the stop button on a streetcar", title: "Streetcar Stop", category: "photography" },
-    { id: 11, img: "https://immich.finleyharrison.ca/api/assets/63e90360-2a4b-4e1e-8952-081311692b7f/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=preview&c=YxgWDYL1lmiYeHiHh4h3dwtmpZCG&edited=true", alt: "Photo of a cat face close up", title: "Sunlit Cat", category: "photography" },
-    { id: 12, img: "https://immich.finleyharrison.ca/api/assets/15623ee3-95fc-419f-8a2f-7f425bf92810/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=preview&c=lKkKHQ6OiZd5BqhoaHeZdn%2BX9JZa&edited=true", alt: "Photo of a sitting cat from the back with it's shadow", title: "Super Cat", category: "photography" },
-    { id: 13, img: "https://immich.finleyharrison.ca/api/assets/cc32ca3a-8f74-419b-a0b7-812a1e443e28/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=preview&c=5AcSDQJWd4%2BIV4l4eHeHZ5tw5wtX&edited=true", alt: "Photo of Kensington Market", title: "Welcome to Kensington", category: "photography" },
-    { id: 14, img: "https://immich.finleyharrison.ca/api/assets/17d0bb16-d0f2-4787-8c5e-71f600c51185/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=preview&c=pdYFBYAEaGd8h3iEd5d4diJTAHeH&edited=true", alt: "Photo of a plane landing", title: "Landing in Toronto", category: "photography" },
-    { id: 1, img: "assets/images/ViClay.png", alt: "3d sculpture of Vi", title: "Vi Clay Sculpt", category: "3d" },
-    { id: 2, img: "assets/images/Vi.png", alt: "Painted 3d sculpture of Vi", title: "Vi Textured Render", category: "3d" },
-    { id: 3, img: "assets/images/Fractal.jpeg", alt: "3d render of a fractal", title: "Mandelbulb Exploration I", category: "3d" },
-    { id: 4, img: "assets/images/Fractal2.png", alt: "3d render of a fractal", title: "Mandelbulb Exploration II", category: "3d" },
-    { id: 5, img: "assets/images/Perfume.png", alt: "City of Perfume bottles at day", title: "Perfume Metropolis (Day)", category: "3d" },
-    { id: 6, img: "assets/images/Perfume2.png", alt: "City of Perfume bottles at night", title: "Perfume Metropolis (Night)", category: "3d" },
+    { 
+      id: 7, 
+      img: "https://immich.finleyharrison.ca/api/assets/a82faad6-53db-42a6-bb52-ac4489b95d93/thumbnail?key=FQ9oIeoxG-H9T1aLUJsKwRlNdHOvfbaRRg1NH_yIo_HMeiZuQ783ix4iyFa9gX7ht4I&size=original&edited=true",
+      previewImg: "https://immich.finleyharrison.ca/api/assets/a82faad6-53db-42a6-bb52-ac4489b95d93/thumbnail?key=FQ9oIeoxG-H9T1aLUJsKwRlNdHOvfbaRRg1NH_yIo_HMeiZuQ783ix4iyFa9gX7ht4I&size=preview&c=lBgODQLPeWh2h2iGdmiHiM97%2Ba3Z&edited=true",
+      alt: "Sword behind bookshelf", title: "Sword in the Library", category: "photography" 
+    },
+    { 
+      id: 8, 
+      img: "https://immich.finleyharrison.ca/api/assets/adaeca7f-2bb6-48da-91f0-772b176d0726/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=original&edited=true",
+      previewImg: "https://immich.finleyharrison.ca/api/assets/adaeca7f-2bb6-48da-91f0-772b176d0726/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=preview&c=2OcRBYKPZYdWdYgyl3mohnT1%2Fnj9&edited=true",
+      alt: "Photo of a Go train", title: "Conductor's View", category: "photography" 
+    },
+    { 
+      id: 9, 
+      img: "https://immich.finleyharrison.ca/api/assets/f751f4a3-8676-46f5-b33b-fe243605dc99/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=original&edited=true",
+      previewImg: "https://immich.finleyharrison.ca/api/assets/f751f4a3-8676-46f5-b33b-fe243605dc99/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=preview&c=mvgNDYR1iIeAiIeWiZd3eKqPaQZn&edited=true",
+      alt: "Photo of Pigeons in a park", title: "Pigeon Parade", category: "photography" 
+    },
+    { 
+      id: 10, 
+      img: "https://immich.finleyharrison.ca/api/assets/5ba7df7b-2960-4970-8b2c-2f585a19e394/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=original&edited=true",
+      previewImg: "https://immich.finleyharrison.ca/api/assets/5ba7df7b-2960-4970-8b2c-2f585a19e394/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=preview&c=FwgKBQJqho%2BJSHV4aZl3hpwI%2FBrQ&edited=true",
+      alt: "Photo of the stop button on a streetcar", title: "Streetcar Stop", category: "photography" 
+    },
+    { 
+      id: 11, 
+      img: "https://immich.finleyharrison.ca/api/assets/63e90360-2a4b-4e1e-8952-081311692b7f/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=original&edited=true",
+      previewImg: "https://immich.finleyharrison.ca/api/assets/63e90360-2a4b-4e1e-8952-081311692b7f/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=preview&c=YxgWDYL1lmiYeHiHh4h3dwtmpZCG&edited=true",
+      alt: "Photo of a cat face close up", title: "Sunlit Cat", category: "photography" 
+    },
+    { 
+      id: 12, 
+      img: "https://immich.finleyharrison.ca/api/assets/15623ee3-95fc-419f-8a2f-7f425bf92810/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=original&edited=true",
+      previewImg: "https://immich.finleyharrison.ca/api/assets/15623ee3-95fc-419f-8a2f-7f425bf92810/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=preview&c=lKkKHQ6OiZd5BqhoaHeZdn%2BX9JZa&edited=true",
+      alt: "Photo of a sitting cat from the back with it's shadow", title: "Super Cat", category: "photography" 
+    },
+    { 
+      id: 13, 
+      img: "https://immich.finleyharrison.ca/api/assets/cc32ca3a-8f74-419b-a0b7-812a1e443e28/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=original&edited=true",
+      previewImg: "https://immich.finleyharrison.ca/api/assets/cc32ca3a-8f74-419b-a0b7-812a1e443e28/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=preview&c=5AcSDQJWd4%2BIV4l4eHeHZ5tw5wtX&edited=true",
+      alt: "Photo of Kensington Market", title: "Welcome to Kensington", category: "photography" 
+    },
+    { 
+      id: 14, 
+      img: "https://immich.finleyharrison.ca/api/assets/17d0bb16-d0f2-4787-8c5e-71f600c51185/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=original&edited=true",
+      previewImg: "https://immich.finleyharrison.ca/api/assets/17d0bb16-d0f2-4787-8c5e-71f600c51185/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=preview&c=pdYFBYAEaGd8h3iEd5d4diJTAHeH&edited=true",
+      alt: "Photo of a plane landing", title: "Landing in Toronto", category: "photography" 
+    },
+    { id: 1, img: "assets/images/ViClay.png", previewImg: "assets/images/ViClay_thumb.jpeg", alt: "3d sculpture of Vi", title: "Vi Clay Sculpt", category: "3d" },
+    { id: 2, img: "assets/images/Vi.png", previewImg: "assets/images/Vi_thumb.jpeg", alt: "Painted 3d sculpture of Vi", title: "Vi Textured Render", category: "3d" },
+    { id: 3, img: "assets/images/Fractal.jpeg", previewImg: "assets/images/Fractal_thumb.jpeg", alt: "3d render of a fractal", title: "Mandelbulb Exploration I", category: "3d" },
+    { id: 4, img: "assets/images/Fractal2.png", previewImg: "assets/images/Fractal2_thumb.jpeg", alt: "3d render of a fractal", title: "Mandelbulb Exploration II", category: "3d" },
+    { id: 5, img: "assets/images/Perfume.png", previewImg: "assets/images/Perfume_thumb.jpeg", alt: "City of Perfume bottles at day", title: "Perfume Metropolis (Day)", category: "3d" },
+    { id: 6, img: "assets/images/Perfume2.png", previewImg: "assets/images/Perfume2_thumb.jpeg", alt: "City of Perfume bottles at night", title: "Perfume Metropolis (Night)", category: "3d" },
   ];
 
   const filteredItems = mediaItems.filter(
@@ -128,10 +168,7 @@ const Gallery = () => {
         </div>
 
         {/* Gallery Grid */}
-        <motion.div 
-          layout 
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence mode="popLayout">
             {filteredItems.map((item) => (
               <motion.div
@@ -145,15 +182,14 @@ const Gallery = () => {
                 onClick={() => setSelectedImage(item)}
                 className="group relative aspect-[4/3] bg-slate-900 rounded-2xl overflow-hidden border border-white/5 cursor-pointer shadow-xl shadow-black/20"
               >
-                {/* Image */}
+                {/* CRITICAL FIX: Changed from item.img to item.previewImg */}
                 <img
-                  src={item.img}
+                  src={item.previewImg} 
                   alt={item.alt}
                   loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
 
-                {/* Overlaid Title Card */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                   <span className="text-xs font-mono text-blue-400 uppercase tracking-widest mb-1">
                     {item.category === "3d" ? "3D Model/Render" : "Photography"}
