@@ -17,6 +17,10 @@ const Gallery = () => {
   const [filter, setFilter] = useState<"all" | "3d" | "photography">("all");
   const [selectedImage, setSelectedImage] = useState<MediaItem | null>(null);
   const [isHighResLoaded, setIsHighResLoaded] = useState(false);
+  
+  // Zoom feature state hooks
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomOrigin, setZoomOrigin] = useState({ x: "50%", y: "50%" });
 
   const ScrollToTop = () => {
     const { pathname } = useLocation();
@@ -90,9 +94,28 @@ const Gallery = () => {
     (item) => filter === "all" || item.category === filter
   );
 
+  // Reset loading and zoom parameters on modal image switch
   useEffect(() => {
     setIsHighResLoaded(false);
+    setIsZoomed(false);
+    setZoomOrigin({ x: "50%", y: "50%" });
   }, [selectedImage?.id]);
+
+  // Dynamic tracking of mouse relative to bounding image box
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isHighResLoaded) return;
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setZoomOrigin({ x: `${x}%`, y: `${y}%` });
+  };
+
+  const toggleZoom = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Stop overlay click close
+    if (isHighResLoaded) {
+      setIsZoomed(!isZoomed);
+    }
+  };
 
   // Navigation Logic
   const handlePrev = (e?: React.MouseEvent) => {
@@ -224,10 +247,10 @@ const Gallery = () => {
                 <FaXmark />
               </button>
 
-              {/* Desktop Navigation Arrows */}
+              {/* Desktop Navigation Arrows (Hidden during Zoomed state for pristine viewing) */}
               <button
                 onClick={handlePrev}
-                className="hidden md:flex absolute left-8 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all text-2xl z-50"
+                className={`${isZoomed ? 'hidden' : 'hidden md:flex'} absolute left-8 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all text-2xl z-50`}
                 aria-label="Previous image"
               >
                 <FaChevronLeft />
@@ -235,7 +258,7 @@ const Gallery = () => {
 
               <button
                 onClick={handleNext}
-                className="hidden md:flex absolute right-8 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all text-2xl z-50"
+                className={`${isZoomed ? 'hidden' : 'hidden md:flex'} absolute right-8 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all text-2xl z-50`}
                 aria-label="Next image"
               >
                 <FaChevronRight />
@@ -252,9 +275,15 @@ const Gallery = () => {
                 className="w-full max-w-4xl flex flex-col gap-4 items-center justify-center"
               >
                 {/* Image Wrapper Container */}
-                <div className="relative w-full max-w-full aspect-[4/3] md:aspect-auto flex items-center justify-center max-h-[65vh] md:max-h-[75vh] overflow-hidden rounded-xl shadow-2xl border border-white/10 bg-slate-900/50">
+                <div 
+                  onMouseMove={handleMouseMove}
+                  onClick={toggleZoom}
+                  className={`relative w-full max-w-full aspect-[4/3] md:aspect-auto flex items-center justify-center max-h-[65vh] md:max-h-[75vh] overflow-hidden rounded-xl shadow-2xl border border-white/10 bg-slate-900/50 ${
+                    isHighResLoaded ? "cursor-zoom-in" : "cursor-wait"
+                  } ${isZoomed ? "cursor-zoom-out" : ""}`}
+                >
                   
-                  {/* 1. Low-res blurred preview (Always visible in layout structural space until high res pops) */}
+                  {/* 1. Low-res blurred preview */}
                   <img
                     src={selectedImage.previewImg}
                     alt=""
@@ -270,27 +299,30 @@ const Gallery = () => {
                     </div>
                   )}
 
-                  {/* 3. High-res target image */}
+                  {/* 3. High-res target image with zoom attributes */}
                   <img
                     src={selectedImage.img}
                     alt={selectedImage.alt}
                     onLoad={() => setIsHighResLoaded(true)}
-                    className={`w-full max-w-full max-h-[65vh] md:max-h-[75vh] object-contain transition-opacity duration-500 ease-out ${
+                    style={{
+                      transformOrigin: `${zoomOrigin.x} ${zoomOrigin.y}`,
+                    }}
+                    className={`w-full max-w-full max-h-[65vh] md:max-h-[75vh] object-contain transition-all duration-200 ease-out ${
                       isHighResLoaded ? "opacity-100" : "opacity-0 w-0 h-0"
-                    }`}
+                    } ${isZoomed ? "scale-[2.25]" : "scale-100"}`}
                   />
                 </div>
                 
                 <div className="text-center px-4 mt-2">
                   <h2 className="text-lg md:text-xl font-bold text-white leading-tight">{selectedImage.title}</h2>
                   <p className="text-xs md:text-sm text-slate-400 mt-1 capitalize">
-                    {selectedImage.category === "3d" ? "3D Graphics Modeling" : "Camera Capture"}
+                    {isHighResLoaded ? (isZoomed ? "Click image to zoom out" : "Click image to inspect closely") : "Loading high resolution..."}
                   </p>
                 </div>
               </motion.div>
 
               {/* Mobile Bottom Navigation Controls */}
-              <div className="flex md:hidden items-center gap-6 mt-6 z-50">
+              <div className={`${isZoomed ? 'hidden' : 'flex md:hidden'} items-center gap-6 mt-6 z-50`}>
                 <button
                   onClick={handlePrev}
                   className="text-slate-400 hover:text-white bg-white/5 active:bg-white/10 p-3.5 rounded-full transition-all text-lg"
