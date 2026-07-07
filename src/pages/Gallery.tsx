@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useMotionValue } from "motion/react";
 import { FaXmark, FaArrowLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 
@@ -24,13 +24,13 @@ interface MediaItem {
 
 const fetchImageExif = async (assetId: string) => {
   try {
-    const apiKey = import.meta.env.VITE_IMMICH_API_KEY || "YOUR_FALLBACK_API_KEY_HERE";
+    const apiKey = import.meta.env.VITE_IMMICH_API_KEY;
 
     const response = await fetch(`https://immich.finleyharrison.ca/api/assets/${assetId}`, {
       method: "GET",
       headers: {
         "Accept": "application/json",
-        "x-api-key": apiKey // Immich uses this custom header for authentication
+        "x-api-key": apiKey 
       }
     });
 
@@ -46,7 +46,6 @@ const fetchImageExif = async (assetId: string) => {
     const make = data.exifInfo?.make || '';
     const model = data.exifInfo?.model || '';
 
-    // If the model name already starts with the make (case-insensitive), don't duplicate it
     const cameraName = model.toLowerCase().startsWith(make.toLowerCase())
       ? model
       : `${make} ${model}`;
@@ -54,7 +53,7 @@ const fetchImageExif = async (assetId: string) => {
     return {
       camera: cameraName.trim() || undefined,
       focalLength: data.exifInfo?.focalLength ? `${data.exifInfo.focalLength}mm` : undefined,
-      aperture: data.exifInfo?.fstop ? `f/${data.exifInfo.fstop}` : undefined,
+      aperture: data.exifInfo?.fNumber ? `f/${data.exifInfo.fNumber}` : undefined,
       shutterSpeed: data.exifInfo?.exposureTime || undefined,
       iso: data.exifInfo?.iso?.toString() || undefined
     };
@@ -76,6 +75,9 @@ const Gallery = () => {
   // Zoom feature state hooks
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomOrigin, setZoomOrigin] = useState({ x: "50%", y: "50%" });
+
+  // Framer Motion drag value to reset position after swiping
+  const dragX = useMotionValue(0);
 
   const ScrollToTop = () => {
     const { pathname } = useLocation();
@@ -164,7 +166,6 @@ const Gallery = () => {
     (item) => filter === "all" || item.category === filter
   );
 
-  // Hook to handle initialization resets & metadata fetching per asset image selection
   useEffect(() => {
     setIsHighResLoaded(false);
     setIsZoomed(false);
@@ -172,7 +173,6 @@ const Gallery = () => {
     setExifData(null);
 
     if (selectedImage && selectedImage.category === "photography") {
-      // Safely extract Immich Asset ID out from image URL pathway string
       const match = selectedImage.img.match(/\/assets\/([a-f0-9-]+)/);
       if (match && match[1]) {
         setIsExifLoading(true);
@@ -184,9 +184,8 @@ const Gallery = () => {
     }
   }, [selectedImage?.id]);
 
-  // Dynamic tracking of mouse relative to bounding image box
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isHighResLoaded) return;
+    if (!isHighResLoaded || window.matchMedia("(max-width: 768px)").matches) return;
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
@@ -194,13 +193,15 @@ const Gallery = () => {
   };
 
   const toggleZoom = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Stop overlay click close
+    e.stopPropagation(); 
     if (isHighResLoaded) {
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        setZoomOrigin({ x: "50%", y: "50%" });
+      }
       setIsZoomed(!isZoomed);
     }
   };
 
-  // Navigation Logic
   const handlePrev = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation(); 
     if (!selectedImage) return;
@@ -215,6 +216,16 @@ const Gallery = () => {
     const currentIndex = filteredItems.findIndex((item) => item.id === selectedImage.id);
     const nextIndex = (currentIndex + 1) % filteredItems.length;
     setSelectedImage(filteredItems[nextIndex]);
+  };
+
+  const handleDragEnd = (_: any, info: any) => {
+    if (isZoomed) return; 
+    const swipeThreshold = 50; 
+    if (info.offset.x < -swipeThreshold) {
+      handleNext();
+    } else if (info.offset.x > swipeThreshold) {
+      handlePrev();
+    }
   };
 
   useEffect(() => {
@@ -236,7 +247,7 @@ const Gallery = () => {
   return (
     <>
     <ScrollToTop />
-    <div className="min-h-screen bg-blue-950 pt-28 pb-16 px-4 md:px-8">
+    <div className="min-h-screen bg-blue-950 pt-20 md:pt-28 pb-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
         
         {/* Back Button */}
@@ -244,29 +255,29 @@ const Gallery = () => {
           to="/" 
           className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-6 group font-medium"
         >
-          <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" />
+          <FaArrowLeft className="md:group-hover:-translate-x-1 transition-transform" />
           Back to Portfolio
         </Link>
 
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
           <div>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 tracking-tight">Creative Gallery</h1>
-            <p className="text-slate-400 max-w-xl">
+            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3 tracking-tight">Creative Gallery</h1>
+            <p className="text-slate-400 max-w-xl text-sm md:text-base">
               A space for my personal creative work: mostly 3D graphics, digital art and photography.
             </p>
           </div>
 
           {/* Category Filter Controls */}
-          <div className="flex bg-blue-900/40 p-1.5 rounded-xl border border-white/5 backdrop-blur-sm self-stretch md:self-auto justify-center gap-2">
+          <div className="flex bg-blue-900/40 p-1.5 rounded-xl border border-white/5 backdrop-blur-sm self-stretch md:self-auto justify-start overflow-x-auto gap-2 no-scrollbar">
             {(["all", "3d", "photography"] as const).map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize transition-all duration-200 ${
+                className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize whitespace-nowrap transition-all duration-200 ${
                   filter === cat
                     ? "bg-blue-500 text-white shadow-md shadow-blue-500/10"
-                    : "text-slate-400 hover:text-slate-200"
+                    : "text-slate-400 md:hover:text-slate-200"
                 }`}
               >
                 {cat === "3d" ? "3D Art" : cat}
@@ -279,7 +290,7 @@ const Gallery = () => {
         </div>
 
         {/* Gallery Grid */}
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:grid-cols-3 md:gap-6">
           <AnimatePresence mode="popLayout">
             {filteredItems.map((item) => (
               <motion.div
@@ -289,7 +300,6 @@ const Gallery = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
-                whileHover={{ y: -4 }}
                 onClick={() => setSelectedImage(item)}
                 className="group relative aspect-[4/3] bg-slate-900 rounded-2xl overflow-hidden border border-white/5 cursor-pointer shadow-xl shadow-black/20"
               >
@@ -297,14 +307,14 @@ const Gallery = () => {
                   src={item.previewImg} 
                   alt={item.alt}
                   loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover md:group-hover:scale-105 transition-transform duration-500"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                  <span className="text-xs font-mono text-blue-400 uppercase tracking-widest mb-1">
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 md:p-6">
+                  <span className="text-[10px] md:text-xs font-mono text-blue-400 uppercase tracking-widest mb-0.5">
                     {item.category === "3d" ? "3D Model/Render" : "Photography"}
                   </span>
-                  <h3 className="text-xl font-bold text-white">{item.title}</h3>
+                  <h3 className="text-base md:text-xl font-bold text-white">{item.title}</h3>
                 </div>
               </motion.div>
             ))}
@@ -318,22 +328,23 @@ const Gallery = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setSelectedImage(null)}
+              onClick={() => setSelectedImage(null)}              
               className="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex flex-col items-center justify-center p-4 md:p-8"
             >
               {/* Close Button */}
               <button 
                 onClick={() => setSelectedImage(null)}
-                className="absolute top-4 right-4 md:top-6 md:right-6 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-3 rounded-full transition-all text-xl z-50"
+                className="absolute top-4 right-4 md:top-6 md:right-6 text-slate-400 md:hover:text-white bg-white/5 p-3 rounded-full transition-all text-lg md:text-xl z-50"
                 aria-label="Close modal"
               >
                 <FaXmark />
               </button>
 
-              {/* Desktop Navigation Arrows (Hidden during Zoomed state for pristine viewing) */}
+              {/* Desktop Navigation Arrows */}
+              {/* CHANGED: top-1/2 -translate-y-1/2 centers arrow icons directly with the center line of the image */}
               <button
                 onClick={handlePrev}
-                className={`${isZoomed ? 'hidden' : 'hidden md:flex'} absolute left-8 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all text-2xl z-50`}
+                className={`${isZoomed ? 'hidden' : 'hidden md:flex'} absolute left-8 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white bg-white/5 p-4 rounded-full transition-all text-2xl z-50`}
                 aria-label="Previous image"
               >
                 <FaChevronLeft />
@@ -341,37 +352,42 @@ const Gallery = () => {
 
               <button
                 onClick={handleNext}
-                className={`${isZoomed ? 'hidden' : 'hidden md:flex'} absolute right-8 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all text-2xl z-50`}
+                className={`${isZoomed ? 'hidden' : 'hidden md:flex'} absolute right-8 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white bg-white/5 p-4 rounded-full transition-all text-2xl z-50`}
                 aria-label="Next image"
               >
                 <FaChevronRight />
               </button>
 
-              {/* Modal Content Box */}
+              {/* Modal Content Box - Touch Gesture Enabled */}
               <motion.div
                 key={selectedImage.id}
                 initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.95, opacity: 0 }}
                 transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                drag={isZoomed ? false : "x"}
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.6}
+                style={{ x: dragX }}
+                onDragEnd={handleDragEnd}
                 onClick={(e) => e.stopPropagation()} 
-                className="w-full max-w-4xl flex flex-col gap-4 items-center justify-center"
+                className="w-full max-w-4xl flex flex-col gap-4 items-center justify-center touch-pan-y"
               >
                 {/* Image Wrapper Container */}
                 <div 
                   onMouseMove={handleMouseMove}
                   onClick={toggleZoom}
-                  className={`relative w-full max-w-full aspect-[4/3] md:aspect-auto flex items-center justify-center max-h-[65vh] md:max-h-[75vh] overflow-hidden rounded-xl shadow-2xl border border-white/10 bg-slate-900/50 ${
-                    isHighResLoaded ? "cursor-zoom-in" : "cursor-wait"
-                  } ${isZoomed ? "cursor-zoom-out" : ""}`}
+                  className={`relative w-full max-w-full aspect-[4/3] md:aspect-auto flex items-center justify-center max-h-[50vh] sm:max-h-[65vh] md:max-h-[75vh] overflow-hidden rounded-xl shadow-2xl border border-white/10 bg-slate-900/50 cursor-pointer ${
+                    isZoomed ? "overflow-auto" : ""
+                  }`}
                 >
                   
                   {/* 1. Low-res blurred preview */}
                   <img
                     src={selectedImage.previewImg}
                     alt=""
-                    className={`w-full h-full max-h-[65vh] md:max-h-[75vh] object-contain blur-md scale-105 transition-opacity duration-500 pointer-events-none ${
-                      isHighResLoaded ? "opacity-0 absolute" : "opacity-70"
+                    className={`absolute inset-0 w-full h-full object-contain blur-md scale-105 transition-opacity duration-500 pointer-events-none ${
+                      isHighResLoaded ? "opacity-0" : "opacity-70"
                     }`}
                   />
 
@@ -388,33 +404,33 @@ const Gallery = () => {
                     alt={selectedImage.alt}
                     onLoad={() => setIsHighResLoaded(true)}
                     style={{
-                      transformOrigin: `${zoomOrigin.x} ${zoomOrigin.y}`,
+                      transformOrigin: zoomOrigin.x + " " + zoomOrigin.y,
                     }}
-                    className={`w-full max-w-full max-h-[65vh] md:max-h-[75vh] object-contain transition-all duration-200 ease-out ${
-                      isHighResLoaded ? "opacity-100" : "opacity-0 w-0 h-0"
-                    } ${isZoomed ? "scale-[2.25]" : "scale-100"}`}
+                    className={`w-full max-w-full max-h-[50vh] sm:max-h-[65vh] md:max-h-[75vh] object-contain transition-all duration-200 ease-out pointer-events-none md:pointer-events-auto ${
+                      isHighResLoaded ? "opacity-100" : "opacity-0"
+                    } ${isZoomed ? "scale-[2.0] md:scale-[2.25]" : "scale-100"}`}
                   />
                 </div>
                 
-                <div className="text-center px-4 mt-2 w-full max-w-2xl">
-                  <h2 className="text-lg md:text-xl font-bold text-white leading-tight">{selectedImage.title}</h2>
-                  <p className="text-xs md:text-sm text-slate-400 mt-1 capitalize">
-                    {isHighResLoaded ? (isZoomed ? "Click image to zoom out" : "Click image to inspect closely") : "Loading high resolution..."}
+                <div className="text-center px-4 w-full max-w-2xl">
+                  <h2 className="text-base md:text-xl font-bold text-white leading-tight">{selectedImage.title}</h2>
+                  <p className="text-[11px] md:text-sm text-slate-400 mt-0.5 capitalize">
+                    {isHighResLoaded ? (isZoomed ? "Tap image to zoom out" : "Tap image to zoom or swipe to navigate") : "Loading high resolution..."}
                   </p>
 
                   {/* Metadata Presentation Layer */}
                   {selectedImage.category === "photography" && (
-                    <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-mono min-h-[30px]">
+                    <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5 text-[10px] md:text-xs font-mono min-h-[25px]">
                       {isExifLoading ? (
                         <span className="text-slate-500 animate-pulse">Reading core camera info...</span>
                       ) : exifData ? (
                         <>
                           {exifData.camera && (
-                            <span className="bg-white/5 border border-white/10 px-2.5 py-1 rounded-md text-slate-200">
+                            <span className="bg-white/5 border border-white/10 px-2 py-0.5 rounded-md text-slate-200">
                               {exifData.camera}
                             </span>
                           )}
-                          <div className="flex items-center gap-1.5 bg-blue-950/60 border border-white/5 px-2.5 py-1 rounded-md text-slate-300">
+                          <div className="flex items-center gap-1 bg-blue-950/60 border border-white/5 px-2 py-0.5 rounded-md text-slate-300">
                             {exifData.focalLength && <span>{exifData.focalLength}</span>}
                             {exifData.aperture && <span className="text-slate-600">•</span>}
                             {exifData.aperture && <span>{exifData.aperture}</span>}
@@ -431,7 +447,7 @@ const Gallery = () => {
                   )}
 
                   {selectedImage.category === "3d" && (
-                    <div className="mt-4 inline-flex items-center text-xs font-mono text-blue-400/80 bg-blue-950/40 border border-blue-500/10 px-2.5 py-1 rounded-md">
+                    <div className="mt-3 inline-flex items-center text-[10px] md:text-xs font-mono text-blue-400/80 bg-blue-950/40 border border-blue-500/10 px-2 py-0.5 rounded-md">
                       Digital Render
                     </div>
                   )}
@@ -439,17 +455,18 @@ const Gallery = () => {
               </motion.div>
 
               {/* Mobile Bottom Navigation Controls */}
-              <div className={`${isZoomed ? 'hidden' : 'flex md:hidden'} items-center gap-6 mt-6 z-50`}>
+              {/* CHANGED: Repositioned mobile row using absolute tracking so it doesn't displace the vertical layout of the main content stack */}
+              <div className={`${isZoomed ? 'hidden' : 'flex md:hidden'} absolute bottom-8 left-1/2 -translate-x-1/2 items-center gap-8 z-50`}>
                 <button
                   onClick={handlePrev}
-                  className="text-slate-400 hover:text-white bg-white/5 active:bg-white/10 p-3.5 rounded-full transition-all text-lg"
+                  className="text-slate-400 bg-white/5 active:bg-white/10 p-3.5 rounded-full text-base"
                   aria-label="Previous image"
                 >
                   <FaChevronLeft />
                 </button>
                 <button
                   onClick={handleNext}
-                  className="text-slate-400 hover:text-white bg-white/5 active:bg-white/10 p-3.5 rounded-full transition-all text-lg"
+                  className="text-slate-400 bg-white/5 active:bg-white/10 p-3.5 rounded-full text-base"
                   aria-label="Next image"
                 >
                   <FaChevronRight />
