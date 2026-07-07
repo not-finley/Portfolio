@@ -16,6 +16,7 @@ interface MediaItem {
 const Gallery = () => {
   const [filter, setFilter] = useState<"all" | "3d" | "photography">("all");
   const [selectedImage, setSelectedImage] = useState<MediaItem | null>(null);
+  const [isHighResLoaded, setIsHighResLoaded] = useState(false);
 
   const ScrollToTop = () => {
     const { pathname } = useLocation();
@@ -88,6 +89,10 @@ const Gallery = () => {
   const filteredItems = mediaItems.filter(
     (item) => filter === "all" || item.category === filter
   );
+
+  useEffect(() => {
+    setIsHighResLoaded(false);
+  }, [selectedImage?.id]);
 
   // Navigation Logic
   const handlePrev = (e?: React.MouseEvent) => {
@@ -182,7 +187,6 @@ const Gallery = () => {
                 onClick={() => setSelectedImage(item)}
                 className="group relative aspect-[4/3] bg-slate-900 rounded-2xl overflow-hidden border border-white/5 cursor-pointer shadow-xl shadow-black/20"
               >
-                {/* CRITICAL FIX: Changed from item.img to item.previewImg */}
                 <img
                   src={item.previewImg} 
                   alt={item.alt}
@@ -220,7 +224,7 @@ const Gallery = () => {
                 <FaXmark />
               </button>
 
-              {/* Desktop Navigation Left Arrow */}
+              {/* Desktop Navigation Arrows */}
               <button
                 onClick={handlePrev}
                 className="hidden md:flex absolute left-8 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all text-2xl z-50"
@@ -229,7 +233,6 @@ const Gallery = () => {
                 <FaChevronLeft />
               </button>
 
-              {/* Desktop Navigation Right Arrow */}
               <button
                 onClick={handleNext}
                 className="hidden md:flex absolute right-8 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all text-2xl z-50"
@@ -248,11 +251,33 @@ const Gallery = () => {
                 onClick={(e) => e.stopPropagation()} 
                 className="w-full max-w-4xl flex flex-col gap-4 items-center justify-center"
               >
-                <div className="w-full flex items-center justify-center max-h-[65vh] md:max-h-[75vh]">
+                {/* Image Wrapper Container */}
+                <div className="relative w-full max-w-full aspect-[4/3] md:aspect-auto flex items-center justify-center max-h-[65vh] md:max-h-[75vh] overflow-hidden rounded-xl shadow-2xl border border-white/10 bg-slate-900/50">
+                  
+                  {/* 1. Low-res blurred preview (Always visible in layout structural space until high res pops) */}
+                  <img
+                    src={selectedImage.previewImg}
+                    alt=""
+                    className={`w-full h-full max-h-[65vh] md:max-h-[75vh] object-contain blur-md scale-105 transition-opacity duration-500 pointer-events-none ${
+                      isHighResLoaded ? "opacity-0 absolute" : "opacity-70"
+                    }`}
+                  />
+
+                  {/* 2. Loading subtle spinner overlay */}
+                  {!isHighResLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 z-10">
+                      <div className="w-10 h-10 border-4 border-slate-500/30 border-t-blue-500 rounded-full animate-spin" />
+                    </div>
+                  )}
+
+                  {/* 3. High-res target image */}
                   <img
                     src={selectedImage.img}
                     alt={selectedImage.alt}
-                    className="rounded-xl object-contain max-w-full max-h-[65vh] md:max-h-[75vh] shadow-2xl border border-white/10"
+                    onLoad={() => setIsHighResLoaded(true)}
+                    className={`w-full max-w-full max-h-[65vh] md:max-h-[75vh] object-contain transition-opacity duration-500 ease-out ${
+                      isHighResLoaded ? "opacity-100" : "opacity-0 w-0 h-0"
+                    }`}
                   />
                 </div>
                 
