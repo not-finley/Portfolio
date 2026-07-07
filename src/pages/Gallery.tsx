@@ -34,6 +34,21 @@ const Gallery = () => {
   };
 
   const mediaItems: MediaItem[] = [
+    { id: 15, 
+      img: "https://immich.finleyharrison.ca/api/assets/4b7dced0-9b8a-49bf-839c-b954da39af09/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=original&c=mzgGDIKaVZSjmpdvkY34iJ1u9w%3D%3D&edited=true",
+      previewImg: "https://immich.finleyharrison.ca/api/assets/4b7dced0-9b8a-49bf-839c-b954da39af09/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=preview&c=mzgGDIKaVZSjmpdvkY34iJ1u9w%3D%3D&edited=true",
+      alt: "Photo of a blue eye", title: "Blue Eye", category: "photography"
+    },
+    { id: 16, 
+      img: "https://immich.finleyharrison.ca/api/assets/c6cf6ab0-4f91-4590-b4cc-981ef59b99c9/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=original&c=nBgOFYIQhocuiIiYZ2eJhXd%2FCfuo&edited=true",
+      previewImg: "https://immich.finleyharrison.ca/api/assets/c6cf6ab0-4f91-4590-b4cc-981ef59b99c9/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=preview&c=nBgOFYIQhocuiIiYZ2eJhXd%2FCfuo&edited=true",
+      alt: "Photo of a white flower", title: "White Flower", category: "photography"
+    },
+    { id: 17, 
+      img: "https://immich.finleyharrison.ca/api/assets/a768f8a5-7536-42a0-9038-e63d8ad811a8/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=original&c=m%2BcNFYKYd4iAeIiDh4iIiHZgRwhY&edited=true", 
+      previewImg: "https://immich.finleyharrison.ca/api/assets/a768f8a5-7536-42a0-9038-e63d8ad811a8/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=preview&c=m%2BcNFYKYd4iAeIiDh4iIiHZgRwhY&edited=true",
+      alt: "Photo of three cows", title: "Three Cows", category: "photography"
+    },
     { 
       id: 7, 
       img: "https://immich.finleyharrison.ca/api/assets/a82faad6-53db-42a6-bb52-ac4489b95d93/thumbnail?key=FQ9oIeoxG-H9T1aLUJsKwRlNdHOvfbaRRg1NH_yIo_HMeiZuQ783ix4iyFa9gX7ht4I&size=original&edited=true",
