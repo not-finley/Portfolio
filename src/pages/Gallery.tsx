@@ -43,8 +43,16 @@ const fetchImageExif = async (assetId: string) => {
     
     const data = await response.json();
     
+    const make = data.exifInfo?.make || '';
+    const model = data.exifInfo?.model || '';
+
+    // If the model name already starts with the make (case-insensitive), don't duplicate it
+    const cameraName = model.toLowerCase().startsWith(make.toLowerCase())
+      ? model
+      : `${make} ${model}`;
+
     return {
-      camera: `${data.exifInfo?.make || ''} ${data.exifInfo?.model || ''}`.trim() || undefined,
+      camera: cameraName.trim() || undefined,
       focalLength: data.exifInfo?.focalLength ? `${data.exifInfo.focalLength}mm` : undefined,
       aperture: data.exifInfo?.fstop ? `f/${data.exifInfo.fstop}` : undefined,
       shutterSpeed: data.exifInfo?.exposureTime || undefined,
