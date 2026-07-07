@@ -4,6 +4,14 @@ import { FaXmark, FaArrowLeft, FaChevronLeft, FaChevronRight } from "react-icons
 import { Link, useLocation } from "react-router-dom";
 
 // Types for our media items
+interface ExifData {
+  focalLength?: string; 
+  aperture?: string;
+  shutterSpeed?: string;
+  iso?: string;
+  camera?: string;
+}
+
 interface MediaItem {
   id: number;
   img: string;
@@ -11,12 +19,51 @@ interface MediaItem {
   alt: string;
   title: string;
   category: "3d" | "photography";
+  exif?: ExifData;
 }
+
+const fetchImageExif = async (assetId: string) => {
+  try {
+    const apiKey = import.meta.env.VITE_IMMICH_API_KEY || "YOUR_FALLBACK_API_KEY_HERE";
+
+    const response = await fetch(`https://immich.finleyharrison.ca/api/assets/${assetId}`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "x-api-key": apiKey // Immich uses this custom header for authentication
+      }
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error("Unauthorized: Please check your Immich API key configuration.");
+      }
+      throw new Error(`Metadata request failed with status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    return {
+      camera: `${data.exifInfo?.make || ''} ${data.exifInfo?.model || ''}`.trim() || undefined,
+      focalLength: data.exifInfo?.focalLength ? `${data.exifInfo.focalLength}mm` : undefined,
+      aperture: data.exifInfo?.fstop ? `f/${data.exifInfo.fstop}` : undefined,
+      shutterSpeed: data.exifInfo?.exposureTime || undefined,
+      iso: data.exifInfo?.iso?.toString() || undefined
+    };
+  } catch (error) {
+    console.error("Could not fetch EXIF from backend:", error);
+    return null;
+  }
+};
 
 const Gallery = () => {
   const [filter, setFilter] = useState<"all" | "3d" | "photography">("all");
   const [selectedImage, setSelectedImage] = useState<MediaItem | null>(null);
   const [isHighResLoaded, setIsHighResLoaded] = useState(false);
+  
+  // EXIF loading states
+  const [exifData, setExifData] = useState<ExifData | null>(null);
+  const [isExifLoading, setIsExifLoading] = useState(false);
   
   // Zoom feature state hooks
   const [isZoomed, setIsZoomed] = useState(false);
@@ -109,11 +156,24 @@ const Gallery = () => {
     (item) => filter === "all" || item.category === filter
   );
 
-  // Reset loading and zoom parameters on modal image switch
+  // Hook to handle initialization resets & metadata fetching per asset image selection
   useEffect(() => {
     setIsHighResLoaded(false);
     setIsZoomed(false);
     setZoomOrigin({ x: "50%", y: "50%" });
+    setExifData(null);
+
+    if (selectedImage && selectedImage.category === "photography") {
+      // Safely extract Immich Asset ID out from image URL pathway string
+      const match = selectedImage.img.match(/\/assets\/([a-f0-9-]+)/);
+      if (match && match[1]) {
+        setIsExifLoading(true);
+        fetchImageExif(match[1]).then((data) => {
+          setExifData(data);
+          setIsExifLoading(false);
+        });
+      }
+    }
   }, [selectedImage?.id]);
 
   // Dynamic tracking of mouse relative to bounding image box
@@ -328,11 +388,45 @@ const Gallery = () => {
                   />
                 </div>
                 
-                <div className="text-center px-4 mt-2">
+                <div className="text-center px-4 mt-2 w-full max-w-2xl">
                   <h2 className="text-lg md:text-xl font-bold text-white leading-tight">{selectedImage.title}</h2>
                   <p className="text-xs md:text-sm text-slate-400 mt-1 capitalize">
                     {isHighResLoaded ? (isZoomed ? "Click image to zoom out" : "Click image to inspect closely") : "Loading high resolution..."}
                   </p>
+
+                  {/* Metadata Presentation Layer */}
+                  {selectedImage.category === "photography" && (
+                    <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-mono min-h-[30px]">
+                      {isExifLoading ? (
+                        <span className="text-slate-500 animate-pulse">Reading core camera info...</span>
+                      ) : exifData ? (
+                        <>
+                          {exifData.camera && (
+                            <span className="bg-white/5 border border-white/10 px-2.5 py-1 rounded-md text-slate-200">
+                              {exifData.camera}
+                            </span>
+                          )}
+                          <div className="flex items-center gap-1.5 bg-blue-950/60 border border-white/5 px-2.5 py-1 rounded-md text-slate-300">
+                            {exifData.focalLength && <span>{exifData.focalLength}</span>}
+                            {exifData.aperture && <span className="text-slate-600">•</span>}
+                            {exifData.aperture && <span>{exifData.aperture}</span>}
+                            {exifData.shutterSpeed && <span className="text-slate-600">•</span>}
+                            {exifData.shutterSpeed && <span>{exifData.shutterSpeed}</span>}
+                            {exifData.iso && <span className="text-slate-600">•</span>}
+                            {exifData.iso && <span className="text-blue-400">ISO {exifData.iso}</span>}
+                          </div>
+                        </>
+                      ) : (
+                        <span className="text-slate-600 italic">No EXIF records found</span>
+                      )}
+                    </div>
+                  )}
+
+                  {selectedImage.category === "3d" && (
+                    <div className="mt-4 inline-flex items-center text-xs font-mono text-blue-400/80 bg-blue-950/40 border border-blue-500/10 px-2.5 py-1 rounded-md">
+                      Digital Render
+                    </div>
+                  )}
                 </div>
               </motion.div>
 
