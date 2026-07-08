@@ -9,17 +9,22 @@ const Contact = () => {
     const sendEmail = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
+        
+        const form = e.currentTarget;
 
         emailjs.sendForm(
             `service_4kp24nw`,
             `template_jscxwwh`,
-            e.currentTarget, 
+            form,
             "9ZIgVLaQhluUkMCVL"
         ).then(
             (result) => {
                 console.log(result);
                 setIsSubmitting(false);
-                return(toast.success("Message Sent!", {
+              
+                form.reset();
+
+                toast.success("Message Sent!", {
                     position: "bottom-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -29,16 +34,14 @@ const Contact = () => {
                     progress: undefined,
                     theme: "dark",
                     transition: Slide,
-                    }))
+                });
             },
             (error) => {
-                console.log(error);
+                console.error("EmailJS Error:", error);
                 setIsSubmitting(false);
+                toast.error("Failed to send message. Please try again.");
             }
         );
-
-        // Clears the form after sending the email
-        e.currentTarget.reset();
     };
 
     return (
