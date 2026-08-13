@@ -91,6 +91,16 @@ const Gallery = () => {
   };
 
   const mediaItems: MediaItem[] = [
+    { id: 18, 
+      img: "https://immich.finleyharrison.ca/api/assets/8c657545-1e65-4ab2-bebd-c6eabbbac3ca/thumbnail?key=zIVgoFPLc1meuhOOcVvTRvFjuPx2cnGYFm0lWUd_VUxtdnSqskDFxbe2AtL2Vqpm_H4&size=original&c=GQgSBYBTZnaQiXhmiJl4hQAAAAAA&edited=true",
+      previewImg: "https://immich.finleyharrison.ca/api/assets/8c657545-1e65-4ab2-bebd-c6eabbbac3ca/thumbnail?key=zIVgoFPLc1meuhOOcVvTRvFjuPx2cnGYFm0lWUd_VUxtdnSqskDFxbe2AtL2Vqpm_H4&size=preview&c=GQgSBYBTZnaQiXhmiJl4hQAAAAAA&edited=true",
+      alt: "Black and white photo of a cat", title: "B&W Pixel", category: "photography"
+    },
+    { id: 19, 
+      img: "https://immich.finleyharrison.ca/api/assets/c2c062c1-4981-4edd-9353-dd3354b22827/thumbnail?key=zIVgoFPLc1meuhOOcVvTRvFjuPx2cnGYFm0lWUd_VUxtdnSqskDFxbe2AtL2Vqpm_H4&size=original&c=kSgKFQRPl85HRnh2lnFpV0SREAMZ&edited=true",
+      previewImg: "https://immich.finleyharrison.ca/api/assets/c2c062c1-4981-4edd-9353-dd3354b22827/thumbnail?key=zIVgoFPLc1meuhOOcVvTRvFjuPx2cnGYFm0lWUd_VUxtdnSqskDFxbe2AtL2Vqpm_H4&size=preview&c=kSgKFQRPl85HRnh2lnFpV0SREAMZ&edited=true",
+      alt: "Photo of a cat lying in the sun", title: "Sunlit Pixel", category: "photography"
+    },
     { id: 15, 
       img: "https://immich.finleyharrison.ca/api/assets/4b7dced0-9b8a-49bf-839c-b954da39af09/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=original&c=mzgGDIKaVZSjmpdvkY34iJ1u9w%3D%3D&edited=true",
       previewImg: "https://immich.finleyharrison.ca/api/assets/4b7dced0-9b8a-49bf-839c-b954da39af09/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=preview&c=mzgGDIKaVZSjmpdvkY34iJ1u9w%3D%3D&edited=true",
