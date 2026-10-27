@@ -22,25 +22,6 @@ interface MediaItem {
   exif?: ExifData;
 }
 
-const IMMICH_BASE_URL = import.meta.env.DEV
-  ? '/immich-api'
-  : 'https://immich.finleyharrison.ca';
-
-const fetchSharedImageAsObjectUrl = async (assetId: string, shareKey: string, size: 'preview' | 'original' = 'preview') => {
-  try {
-    const response = await fetch(`${IMMICH_BASE_URL}/api/assets/${assetId}/thumbnail?size=${size}&key=${shareKey}`, {
-      method: "GET"
-    });
-
-    if (!response.ok) throw new Error("Failed to load shared image asset");
-
-    const blob = await response.blob();
-    return URL.createObjectURL(blob);
-  } catch (error) {
-    console.error("Error fetching shared image blob:", error);
-    return '';
-  }
-};
 
 const Gallery = () => {
   const [filter, setFilter] = useState<"all" | "3d" | "photography">("all");
