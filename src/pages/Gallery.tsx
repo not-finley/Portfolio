@@ -13,7 +13,7 @@ interface ExifData {
 }
 
 interface MediaItem {
-  id: number;
+  id: string | number;
   img: string;
   previewImg: string;
   alt: string;
@@ -22,15 +22,36 @@ interface MediaItem {
   exif?: ExifData;
 }
 
+const IMMICH_BASE_URL = import.meta.env.DEV
+  ? '/immich-api'
+  : 'https://immich.finleyharrison.ca';
+
+const fetchSharedImageAsObjectUrl = async (assetId: string, shareKey: string, size: 'preview' | 'original' = 'preview') => {
+  try {
+    const response = await fetch(`${IMMICH_BASE_URL}/api/assets/${assetId}/thumbnail?size=${size}&key=${shareKey}`, {
+      method: "GET"
+    });
+
+    if (!response.ok) throw new Error("Failed to load shared image asset");
+
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
+  } catch (error) {
+    console.error("Error fetching shared image blob:", error);
+    return '';
+  }
+};
+
 const fetchImageExif = async (assetId: string) => {
   try {
-    const apiKey = import.meta.env.VITE_IMMICH_API_KEY || "YOUR_FALLBACK_API_KEY_HERE";
+    const apiKey = import.meta.env.VITE_IMMICH_API_KEY;
+    if (!apiKey) return null;
 
-    const response = await fetch(`https://immich.finleyharrison.ca/api/assets/${assetId}`, {
+    const response = await fetch(`${IMMICH_BASE_URL}/api/assets/${assetId}`, {
       method: "GET",
       headers: {
         "Accept": "application/json",
-        "x-api-key": apiKey // Immich uses this custom header for authentication
+        "x-api-key": apiKey
       }
     });
 
@@ -46,7 +67,6 @@ const fetchImageExif = async (assetId: string) => {
     const make = data.exifInfo?.make || '';
     const model = data.exifInfo?.model || '';
 
-    // If the model name already starts with the make (case-insensitive), don't duplicate it
     const cameraName = model.toLowerCase().startsWith(make.toLowerCase())
       ? model
       : `${make} ${model}`;
@@ -69,6 +89,10 @@ const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<MediaItem | null>(null);
   const [isHighResLoaded, setIsHighResLoaded] = useState(false);
   
+  // Combined media items state (local 3D assets + dynamic Immich photography)
+  const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
+  const [isLoadingGallery, setIsLoadingGallery] = useState(true);
+
   // EXIF loading states
   const [exifData, setExifData] = useState<ExifData | null>(null);
   const [isExifLoading, setIsExifLoading] = useState(false);
@@ -88,70 +112,8 @@ const Gallery = () => {
     return null;
   };
 
-  const mediaItems: MediaItem[] = [
-    { id: 15, 
-      img: "https://immich.finleyharrison.ca/api/assets/4b7dced0-9b8a-49bf-839c-b954da39af09/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=original&c=mzgGDIKaVZSjmpdvkY34iJ1u9w%3D%3D&edited=true",
-      previewImg: "https://immich.finleyharrison.ca/api/assets/4b7dced0-9b8a-49bf-839c-b954da39af09/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=preview&c=mzgGDIKaVZSjmpdvkY34iJ1u9w%3D%3D&edited=true",
-      alt: "Photo of a blue eye", title: "Blue Eye", category: "photography"
-    },
-    { id: 16, 
-      img: "https://immich.finleyharrison.ca/api/assets/c6cf6ab0-4f91-4590-b4cc-981ef59b99c9/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=original&c=nBgOFYIQhocuiIiYZ2eJhXd%2FCfuo&edited=true",
-      previewImg: "https://immich.finleyharrison.ca/api/assets/c6cf6ab0-4f91-4590-b4cc-981ef59b99c9/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=preview&c=nBgOFYIQhocuiIiYZ2eJhXd%2FCfuo&edited=true",
-      alt: "Photo of a white flower", title: "White Flower", category: "photography"
-    },
-    { id: 17, 
-      img: "https://immich.finleyharrison.ca/api/assets/a768f8a5-7536-42a0-9038-e63d8ad811a8/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=original&c=m%2BcNFYKYd4iAeIiDh4iIiHZgRwhY&edited=true", 
-      previewImg: "https://immich.finleyharrison.ca/api/assets/a768f8a5-7536-42a0-9038-e63d8ad811a8/thumbnail?key=JPXjaZRQSoWWOA5MU0C4sNI1xUoFoBxzS4l4DxuHIxMt7v9IK0eijkeIxMGEaOwqnN4&size=preview&c=m%2BcNFYKYd4iAeIiDh4iIiHZgRwhY&edited=true",
-      alt: "Photo of three cows", title: "Three Cows", category: "photography"
-    },
-    { 
-      id: 7, 
-      img: "https://immich.finleyharrison.ca/api/assets/a82faad6-53db-42a6-bb52-ac4489b95d93/thumbnail?key=FQ9oIeoxG-H9T1aLUJsKwRlNdHOvfbaRRg1NH_yIo_HMeiZuQ783ix4iyFa9gX7ht4I&size=original&edited=true",
-      previewImg: "https://immich.finleyharrison.ca/api/assets/a82faad6-53db-42a6-bb52-ac4489b95d93/thumbnail?key=FQ9oIeoxG-H9T1aLUJsKwRlNdHOvfbaRRg1NH_yIo_HMeiZuQ783ix4iyFa9gX7ht4I&size=preview&c=lBgODQLPeWh2h2iGdmiHiM97%2Ba3Z&edited=true",
-      alt: "Sword behind bookshelf", title: "Sword in the Library", category: "photography" 
-    },
-    { 
-      id: 8, 
-      img: "https://immich.finleyharrison.ca/api/assets/adaeca7f-2bb6-48da-91f0-772b176d0726/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=original&edited=true",
-      previewImg: "https://immich.finleyharrison.ca/api/assets/adaeca7f-2bb6-48da-91f0-772b176d0726/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=preview&c=2OcRBYKPZYdWdYgyl3mohnT1%2Fnj9&edited=true",
-      alt: "Photo of a Go train", title: "Conductor's View", category: "photography" 
-    },
-    { 
-      id: 9, 
-      img: "https://immich.finleyharrison.ca/api/assets/f751f4a3-8676-46f5-b33b-fe243605dc99/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=original&edited=true",
-      previewImg: "https://immich.finleyharrison.ca/api/assets/f751f4a3-8676-46f5-b33b-fe243605dc99/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=preview&c=mvgNDYR1iIeAiIeWiZd3eKqPaQZn&edited=true",
-      alt: "Photo of Pigeons in a park", title: "Pigeon Parade", category: "photography" 
-    },
-    { 
-      id: 10, 
-      img: "https://immich.finleyharrison.ca/api/assets/5ba7df7b-2960-4970-8b2c-2f585a19e394/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=original&edited=true",
-      previewImg: "https://immich.finleyharrison.ca/api/assets/5ba7df7b-2960-4970-8b2c-2f585a19e394/thumbnail?key=tcSYboOAYk6bgkp6zyGfuBkH0IYEb80Bw215EO58ucH4kIgsQU_0diZGM6Q9WskO2Tk&size=preview&c=FwgKBQJqho%2BJSHV4aZl3hpwI%2FBrQ&edited=true",
-      alt: "Photo of the stop button on a streetcar", title: "Streetcar Stop", category: "photography" 
-    },
-    { 
-      id: 11, 
-      img: "https://immich.finleyharrison.ca/api/assets/63e90360-2a4b-4e1e-8952-081311692b7f/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=original&edited=true",
-      previewImg: "https://immich.finleyharrison.ca/api/assets/63e90360-2a4b-4e1e-8952-081311692b7f/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=preview&c=YxgWDYL1lmiYeHiHh4h3dwtmpZCG&edited=true",
-      alt: "Photo of a cat face close up", title: "Sunlit Cat", category: "photography" 
-    },
-    { 
-      id: 12, 
-      img: "https://immich.finleyharrison.ca/api/assets/15623ee3-95fc-419f-8a2f-7f425bf92810/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=original&edited=true",
-      previewImg: "https://immich.finleyharrison.ca/api/assets/15623ee3-95fc-419f-8a2f-7f425bf92810/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=preview&c=lKkKHQ6OiZd5BqhoaHeZdn%2BX9JZa&edited=true",
-      alt: "Photo of a sitting cat from the back with it's shadow", title: "Super Cat", category: "photography" 
-    },
-    { 
-      id: 13, 
-      img: "https://immich.finleyharrison.ca/api/assets/cc32ca3a-8f74-419b-a0b7-812a1e443e28/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=original&edited=true",
-      previewImg: "https://immich.finleyharrison.ca/api/assets/cc32ca3a-8f74-419b-a0b7-812a1e443e28/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=preview&c=5AcSDQJWd4%2BIV4l4eHeHZ5tw5wtX&edited=true",
-      alt: "Photo of Kensington Market", title: "Welcome to Kensington", category: "photography" 
-    },
-    { 
-      id: 14, 
-      img: "https://immich.finleyharrison.ca/api/assets/17d0bb16-d0f2-4787-8c5e-71f600c51185/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=original&edited=true",
-      previewImg: "https://immich.finleyharrison.ca/api/assets/17d0bb16-d0f2-4787-8c5e-71f600c51185/thumbnail?key=YQhxRJKAJC7mHncfoV8Hs-OxyYePPXExRhMhcg29ZfDaTlz0zBnwyDThnq-D01HLBoQ&size=preview&c=pdYFBYAEaGd8h3iEd5d4diJTAHeH&edited=true",
-      alt: "Photo of a plane landing", title: "Landing in Toronto", category: "photography" 
-    },
+  // Local 3D assets that stay hardcoded
+  const local3DItems: MediaItem[] = [
     { id: 1, img: "assets/images/ViClay.png", previewImg: "assets/images/ViClay_thumb.jpeg", alt: "3d sculpture of Vi", title: "Vi Clay Sculpt", category: "3d" },
     { id: 2, img: "assets/images/Vi.png", previewImg: "assets/images/Vi_thumb.jpeg", alt: "Painted 3d sculpture of Vi", title: "Vi Textured Render", category: "3d" },
     { id: 3, img: "assets/images/Fractal.jpeg", previewImg: "assets/images/Fractal_thumb.jpeg", alt: "3d render of a fractal", title: "Mandelbulb Exploration I", category: "3d" },
@@ -159,6 +121,29 @@ const Gallery = () => {
     { id: 5, img: "assets/images/Perfume.png", previewImg: "assets/images/Perfume_thumb.jpeg", alt: "City of Perfume bottles at day", title: "Perfume Metropolis (Day)", category: "3d" },
     { id: 6, img: "assets/images/Perfume2.png", previewImg: "assets/images/Perfume2_thumb.jpeg", alt: "City of Perfume bottles at night", title: "Perfume Metropolis (Night)", category: "3d" },
   ];
+useEffect(() => {
+    const fetchPortfolioFromBackend = async () => {
+      try {
+        // In local development, you can point to your deployed vercel function or mock it, 
+        // Vercel CLI (`vercel dev`) will also run api/gallery.ts locally on localhost:3000 or 5173
+        const res = await fetch('/api/gallery');
+        
+        if (!res.ok) throw new Error(`Failed to load gallery: ${res.status}`);
+
+        const immichPhotos: MediaItem[] = await res.json();
+        console.log("Successfully loaded photography items:", immichPhotos.length);
+
+        setMediaItems([...immichPhotos, ...local3DItems]);
+      } catch (error) {
+        console.error("Error loading portfolio gallery:", error);
+        setMediaItems(local3DItems); // Fallback to 3D items if offline/error
+      } finally {
+        setIsLoadingGallery(false);
+      }
+    };
+
+    fetchPortfolioFromBackend();
+  }, []);
 
   const filteredItems = mediaItems.filter(
     (item) => filter === "all" || item.category === filter
@@ -169,22 +154,8 @@ const Gallery = () => {
     setIsHighResLoaded(false);
     setIsZoomed(false);
     setZoomOrigin({ x: "50%", y: "50%" });
-    setExifData(null);
-
-    if (selectedImage && selectedImage.category === "photography") {
-      // Safely extract Immich Asset ID out from image URL pathway string
-      const match = selectedImage.img.match(/\/assets\/([a-f0-9-]+)/);
-      if (match && match[1]) {
-        setIsExifLoading(true);
-        fetchImageExif(match[1]).then((data) => {
-          setExifData(data);
-          setIsExifLoading(false);
-        });
-      }
-    }
   }, [selectedImage?.id]);
 
-  // Dynamic tracking of mouse relative to bounding image box
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isHighResLoaded) return;
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
@@ -194,13 +165,12 @@ const Gallery = () => {
   };
 
   const toggleZoom = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Stop overlay click close
+    e.stopPropagation();
     if (isHighResLoaded) {
       setIsZoomed(!isZoomed);
     }
   };
 
-  // Navigation Logic
   const handlePrev = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation(); 
     if (!selectedImage) return;
@@ -278,38 +248,45 @@ const Gallery = () => {
           </div>
         </div>
 
-        {/* Gallery Grid */}
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filteredItems.map((item) => (
-              <motion.div
-                key={item.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                whileHover={{ y: -4 }}
-                onClick={() => setSelectedImage(item)}
-                className="group relative aspect-[4/3] bg-slate-900 rounded-2xl overflow-hidden border border-white/5 cursor-pointer shadow-xl shadow-black/20"
-              >
-                <img
-                  src={item.previewImg} 
-                  alt={item.alt}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+        {/* Gallery Grid or Loading State */}
+        {isLoadingGallery ? (
+          <div className="flex flex-col items-center justify-center py-32">
+            <div className="w-12 h-12 border-4 border-slate-500/30 border-t-blue-500 rounded-full animate-spin mb-4" />
+            <p className="text-slate-400 text-sm">Loading gallery items from Immich...</p>
+          </div>
+        ) : (
+          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <AnimatePresence mode="popLayout">
+              {filteredItems.map((item) => (
+                <motion.div
+                  key={item.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
+                  whileHover={{ y: -4 }}
+                  onClick={() => setSelectedImage(item)}
+                  className="group relative aspect-[4/3] bg-slate-900 rounded-2xl overflow-hidden border border-white/5 cursor-pointer shadow-xl shadow-black/20"
+                >
+                  <img
+                    src={item.previewImg} 
+                    alt={item.alt}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                  <span className="text-xs font-mono text-blue-400 uppercase tracking-widest mb-1">
-                    {item.category === "3d" ? "3D Model/Render" : "Photography"}
-                  </span>
-                  <h3 className="text-xl font-bold text-white">{item.title}</h3>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                    <span className="text-xs font-mono text-blue-400 uppercase tracking-widest mb-1">
+                      {item.category === "3d" ? "3D Model/Render" : "Photography"}
+                    </span>
+                    <h3 className="text-xl font-bold text-white">{item.title}</h3>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        )}
 
         {/* Lightbox Modal */}
         <AnimatePresence>
@@ -330,7 +307,7 @@ const Gallery = () => {
                 <FaXmark />
               </button>
 
-              {/* Desktop Navigation Arrows (Hidden during Zoomed state for pristine viewing) */}
+              {/* Desktop Navigation Arrows */}
               <button
                 onClick={handlePrev}
                 className={`${isZoomed ? 'hidden' : 'hidden md:flex'} absolute left-8 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 p-4 rounded-full transition-all text-2xl z-50`}
@@ -382,7 +359,7 @@ const Gallery = () => {
                     </div>
                   )}
 
-                  {/* 3. High-res target image with zoom attributes */}
+                  {/* 3. High-res target image */}
                   <img
                     src={selectedImage.img}
                     alt={selectedImage.alt}
@@ -405,23 +382,21 @@ const Gallery = () => {
                   {/* Metadata Presentation Layer */}
                   {selectedImage.category === "photography" && (
                     <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-mono min-h-[30px]">
-                      {isExifLoading ? (
-                        <span className="text-slate-500 animate-pulse">Reading core camera info...</span>
-                      ) : exifData ? (
+                      {selectedImage.exif && (selectedImage.exif.camera || selectedImage.exif.focalLength || selectedImage.exif.aperture) ? (
                         <>
-                          {exifData.camera && (
+                          {selectedImage.exif.camera && (
                             <span className="bg-white/5 border border-white/10 px-2.5 py-1 rounded-md text-slate-200">
-                              {exifData.camera}
+                              {selectedImage.exif.camera}
                             </span>
                           )}
                           <div className="flex items-center gap-1.5 bg-blue-950/60 border border-white/5 px-2.5 py-1 rounded-md text-slate-300">
-                            {exifData.focalLength && <span>{exifData.focalLength}</span>}
-                            {exifData.aperture && <span className="text-slate-600">•</span>}
-                            {exifData.aperture && <span>{exifData.aperture}</span>}
-                            {exifData.shutterSpeed && <span className="text-slate-600">•</span>}
-                            {exifData.shutterSpeed && <span>{exifData.shutterSpeed}</span>}
-                            {exifData.iso && <span className="text-slate-600">•</span>}
-                            {exifData.iso && <span className="text-blue-400">ISO {exifData.iso}</span>}
+                            {selectedImage.exif.focalLength && <span>{selectedImage.exif.focalLength}</span>}
+                            {selectedImage.exif.aperture && <span className="text-slate-600">•</span>}
+                            {selectedImage.exif.aperture && <span>{selectedImage.exif.aperture}</span>}
+                            {selectedImage.exif.shutterSpeed && <span className="text-slate-600">•</span>}
+                            {selectedImage.exif.shutterSpeed && <span>{selectedImage.exif.shutterSpeed}</span>}
+                            {selectedImage.exif.iso && <span className="text-slate-600">•</span>}
+                            {selectedImage.exif.iso && <span className="text-blue-400">ISO {selectedImage.exif.iso}</span>}
                           </div>
                         </>
                       ) : (
